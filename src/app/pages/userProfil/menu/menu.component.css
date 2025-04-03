@@ -1,0 +1,24 @@
+.menu {
+    width: 50%;
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    
+  }
+  
+  .menu-link {
+    text-decoration: none;
+    color: black;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .menu-link.active {
+    color: green;
+    font-style: italic;
+  }
+  
+  .menu-link:hover {
+    color: gray;
+  }
+  

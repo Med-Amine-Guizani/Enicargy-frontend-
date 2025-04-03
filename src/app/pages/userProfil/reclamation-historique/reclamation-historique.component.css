@@ -1,0 +1,53 @@
+section {
+    width: 100%;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.terminée {
+    color: green;
+    font-style: italic;
+}
+
+.enCours {
+    color: blue;
+    font-style: italic;
+}
+
+.refusée {
+    color: red;
+    font-style: italic;
+}
+
+.enAttente {
+    color: lightblue;
+    font-style: italic;
+}
+
+.voir-plus {
+    text-align: right;
+    color: #666;
+    cursor: pointer;
+    margin-top: 10px;
+}
