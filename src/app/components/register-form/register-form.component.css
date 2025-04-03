@@ -1,0 +1,72 @@
+.register-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .form-section {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .image-section {
+    width:50%;
+    height: 100%;
+    background-image: url("C:/Users/ASUS/Desktop/Enicargy-frontend-/public/ecologie-energie.webp");
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 0.7rem;
+    margin-top: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-primary {
+    background-color: green;
+    color: white;
+    border: none;
+  }
+  
+  .social-login {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .google-btn, .apple-btn {
+    width: 100%;
+    padding: 0.7rem;
+    margin-top: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .google-btn {
+    background-color: white;
+    border: 1px solid gray;
+  }
+  
+  .apple-btn {
+    background-color: black;
+    color: white;
+  }
+  

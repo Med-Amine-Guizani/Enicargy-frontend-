@@ -1,0 +1,26 @@
+<section>
+    <table>
+        <thead>
+            <tr>
+                <th>Réclamation</th>
+                <th>Date et heure de réclamation</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let claim of _claims.claims">
+                <td>{{ claim.probleme }}</td>
+                <td>{{ claim.dateClaim }}</td>
+                <td [ngClass]="{
+                    'terminée': claim.statut === StatutReclamation.TERMINEE,
+                    'enAttente': claim.statut === StatutReclamation.EN_ATTENTE,
+                    'refusée': claim.statut === StatutReclamation.REFUSEE,
+                    'enCours': claim.statut === StatutReclamation.EN_COURS
+                }">
+                    {{ claim.statut }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="voir-plus">voir plus...</p>
+</section>
