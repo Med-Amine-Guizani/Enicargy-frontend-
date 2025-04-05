@@ -6,10 +6,11 @@ import { SeConnecterComponent } from './pages/se-connecter/se-connecter.componen
 import { StatisticsComponent } from './pages/userProfil/statistics/statistics.component';
 import { UserProfilInterfaceComponent } from './pages/userProfil/user-profil-interface/user-profil-interface.component';
 
+
 export const routes: Routes = [
     {path:'addclaim',component:AddClaimComponent},
     {path:'userInterface',component:UserProfilInterfaceComponent},
     {path:'seconnecter',component:SeConnecterComponent},
     {path:'stat',component:StatisticsComponent},
-    {path:'register',component:RegisterComponent}
+    {path:'register',component:RegisterComponent},
 ];
