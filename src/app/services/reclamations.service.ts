@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Reclamation } from '../reclamation';  // Chemin correct à adapter
+import { HttpClient } from '@angular/common/http';
+import { Reclamation } from '../reclamation';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReclamationsService {
-
+  constructor(private http: HttpClient) {}
   claims: Reclamation[] = [];  // Remplir les réclamations selon ton application
 
   getClaims(): Observable<Reclamation[]> {
@@ -15,6 +16,7 @@ export class ReclamationsService {
   }
 
   addClaim(claim: Reclamation): void {
-    this.claims.push(claim);  // Ajouter une réclamation à la liste
+    //this.claims.push(claim);  // Ajouter une réclamation à la liste
   }
+
 }
