@@ -5,6 +5,7 @@ import { StatisticsComponent } from '../statistics/statistics.component';
 import { Reclamation } from '../../../reclamation';
 import { ReclamationsService } from '../../../services/reclamations.service';
 import { StatutReclamation } from '../reclamation-historique/reclamation-historique.component';
+import { threadId } from 'node:worker_threads';
 
 @Component({
   selector: 'app-user-profil-interface',
@@ -29,5 +30,6 @@ export class UserProfilInterfaceComponent {
       score: 5
     };
     this.reclamationService.addClaim(newReclamation);
+    this.reclamations.push(newReclamation);
   }
 }
