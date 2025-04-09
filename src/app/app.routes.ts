@@ -8,6 +8,7 @@ import { UserProfilInterfaceComponent } from './pages/userProfil/user-profil-int
 import { PageReclamationsComponent } from './pages/AdminPages/page-reclamations/page-reclamations.component';
 import { ArticleAdminComponent } from './components/article-admin/article-admin.component';
 import { PageArticleComponent } from './pages/AdminPages/page-article/page-article.component';
+import { PageDashboardComponent } from './pages/AdminPages/page-dashboard/page-dashboard.component';
 
 export const routes: Routes = [
     {path:'addclaim',component:AddClaimComponent},
@@ -17,4 +18,5 @@ export const routes: Routes = [
     {path:'register',component:RegisterComponent},
     {path:'reclamation-admin',component:PageReclamationsComponent},
     {path:'article-admin',component:PageArticleComponent},
+    {path:'dashboard-admin',component:PageDashboardComponent}
 ];
