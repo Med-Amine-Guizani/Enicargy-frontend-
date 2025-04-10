@@ -1,0 +1,65 @@
+<div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+  
+    <!-- Main content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">ENICARGY</h1>
+            <mat-icon class="notification-icon">notifications</mat-icon>
+        </div>
+
+        <h2 class="section-title">Annexe</h2>
+
+        <div class="dashboard-container">
+            <!-- Top Row - Line Chart and Stats -->
+            <div class="top-row">
+                <!-- Line Chart Section -->
+                <div class="line-chart-section">
+                    <h3>Variation de la consommation d'auxiliectricité par mois</h3>
+                    <div class="chart-container">
+                        <canvas #lineChart></canvas>
+                    </div>
+                    <div class="chart-legend">
+                        <div><span class="legend-color electricite"></span> Electricité</div>
+                        <div><span class="legend-color eau"></span> Eau</div>
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="stats-section">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <mat-icon>group</mat-icon>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">{{ statsData?.utilisateurs}}</div>
+                            <div class="stat-label">Utilisateurs</div>
+                            <div class="stat-subvalues">
+                                <span>{{ statsData?.electricite }}</span>
+                                <span>{{ statsData?.eau }}</span>
+                                <span>{{ statsData?.reclamations }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Row - Doughnut Chart -->
+            <div class="bottom-row">
+                <div class="doughnut-chart-section">
+                    <h3>Chart Reclamation Pour Cette Mois</h3>
+                    <div class="chart-container">
+                        <canvas #doughnutChart></canvas>
+                        <div class="chart-legend">
+                            <div><span class="legend-color en-attente"></span> En Attente</div>
+                            <div><span class="legend-color en-cours"></span> En Cours</div>
+                            <div><span class="legend-color terminee"></span> Terminée</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

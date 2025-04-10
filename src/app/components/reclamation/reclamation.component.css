@@ -1,0 +1,83 @@
+.reclamation-card {
+  width: 280px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.date {
+  font-size: 12px;
+  color: #555;
+  text-align: left;
+  margin: 0;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.location {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.description {
+  font-size: 14px;
+  color: #333;
+}
+
+.state-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  font-size: 12px;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.state-badge.attente {
+  background-color: #f44336; /* red */
+}
+
+.state-badge.en-cours {
+  background-color: #ff9800; /* orange */
+}
+
+.state-badge.terminee {
+  background-color: #4caf50; /* green */
+}
+
+.photo {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.action-button {
+  background-color: #1565c0;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  align-self: center;
+  margin-top: 10px;
+  transition: background 0.2s ease-in-out;
+}
+
+.action-button:hover {
+  background-color: #0d47a1;
+}

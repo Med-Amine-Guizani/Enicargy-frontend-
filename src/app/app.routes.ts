@@ -5,7 +5,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { SeConnecterComponent } from './pages/se-connecter/se-connecter.component';
 import { StatisticsComponent } from './pages/userProfil/statistics/statistics.component';
 import { UserProfilInterfaceComponent } from './pages/userProfil/user-profil-interface/user-profil-interface.component';
-
+import { PageReclamationsComponent } from './pages/AdminPages/page-reclamations/page-reclamations.component';
 
 export const routes: Routes = [
     {path:'addclaim',component:AddClaimComponent},
@@ -13,4 +13,5 @@ export const routes: Routes = [
     {path:'seconnecter',component:SeConnecterComponent},
     {path:'stat',component:StatisticsComponent},
     {path:'register',component:RegisterComponent},
+    {path:'reclamation-admin',component:PageReclamationsComponent}
 ];

@@ -1,0 +1,37 @@
+<div *ngIf="isLoading">Loading...</div>
+
+<div *ngIf="errorMessage" class="error-message">
+  <p>{{ errorMessage }}</p>
+</div>
+
+<div *ngIf="!isLoading && !errorMessage">
+  <!-- Reclamation En Attente Section -->
+  <section *ngIf="reclamationsEnAttente.length > 0">
+    <div class="section-header">
+      <hr />
+      <h2>Reclamation En Attente</h2>
+    </div>
+    <div *ngFor="let reclamation of reclamationsEnAttente">
+      <app-reclamation [reclamation]="reclamation"></app-reclamation>
+    </div>
+  </section>
+
+  <!-- Reclamation En Cours Section -->
+  <section *ngIf="reclamationsEnCours.length > 0">
+    <div class="section-header">
+      <hr />
+      <h2>Reclamation En Cours</h2>
+    </div>
+    <div *ngFor="let reclamation of reclamationsEnCours">
+      <app-reclamation [reclamation]="reclamation"></app-reclamation>
+    </div>
+  </section>
+
+  <!-- If there are no reclamations for each section -->
+  <section *ngIf="reclamationsEnAttente.length === 0">
+    <p>No reclamations pending.</p>
+  </section>
+  <section *ngIf="reclamationsEnCours.length === 0">
+    <p>No reclamations in progress.</p>
+  </section>
+</div>

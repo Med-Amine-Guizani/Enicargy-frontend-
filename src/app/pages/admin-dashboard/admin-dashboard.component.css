@@ -1,0 +1,110 @@
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.top-row {
+    display: flex;
+    gap: 20px;
+}
+
+.line-chart-section, .stats-section {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+.chart-legend {
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    border-radius: 3px;
+}
+
+.electricite { background-color: #d0b055; }
+.eau { background-color: #5084d0; }
+.en-attente { background-color: #ff6384; }
+.en-cours { background-color: #36a2eb; }
+.terminee { background-color: #4bc0c0; }
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.stat-icon mat-icon {
+    font-size: 30px;
+    color: #3f51b5;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.stat-label {
+    color: #666;
+    margin: 5px 0;
+}
+
+.stat-subvalues {
+    display: flex;
+    gap: 10px;
+    color: #888;
+}
+
+.bottom-row {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.doughnut-chart-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.doughnut-chart-section .chart-container {
+    height: 250px;
+}
