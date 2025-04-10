@@ -10,24 +10,7 @@ import { HttpClient} from '@angular/common/http';
 export class ChartService {
   private apiUrl = 'http://localhost:8080/api'; //Spring Boot backend URL by default 
   constructor(private http: HttpClient) { }
-  consumptionData: ConsumptionData[] = [];  // vide par défaut
-  
-    // Remplissage initial vide, mais valide
-    reclamationData: ReclamationData = {
-      enAttente: 0,
-      enCours: 0,
-      terminee: 0
-    };
-  
-    statsData: UtilisationStats = {
-      utilisateurs: 0,
-      max: 1, // éviter division par 0 dans progress bar
-      eau: 0,
-      electricite: 0,
-      reclamations: 0,
-      min: 1 // éviter division par 0 dans progress bar,
-  
-    };
+ 
   
 
   /**
