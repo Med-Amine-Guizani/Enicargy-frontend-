@@ -1,0 +1,11 @@
+<div class="container">
+  <ng-container *ngFor="let rapport of rapports">
+    <app-rapport
+      *ngIf="getYear(rapport.date) === year"
+      [rapport]="rapport"
+      (onDelete)="handleDelete($event)"
+      >
+    </app-rapport>
+  </ng-container>
+</div>
+

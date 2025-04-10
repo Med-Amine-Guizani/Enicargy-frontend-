@@ -9,6 +9,7 @@ import { PageReclamationsComponent } from './pages/AdminPages/page-reclamations/
 import { ArticleAdminComponent } from './components/article-admin/article-admin.component';
 import { PageArticleComponent } from './pages/AdminPages/page-article/page-article.component';
 import { PageDashboardComponent } from './pages/AdminPages/page-dashboard/page-dashboard.component';
+import { PageRapportConsomationComponent } from './pages/AdminPages/page-rapport-consomation/page-rapport-consomation.component';
 
 export const routes: Routes = [
     {path:'addclaim',component:AddClaimComponent},
@@ -18,5 +19,6 @@ export const routes: Routes = [
     {path:'register',component:RegisterComponent},
     {path:'reclamation-admin',component:PageReclamationsComponent},
     {path:'article-admin',component:PageArticleComponent},
-    {path:'dashboard-admin',component:PageDashboardComponent}
+    {path:'dashboard-admin',component:PageDashboardComponent},
+    {path:'rapport-admin',component:PageRapportConsomationComponent}
 ];

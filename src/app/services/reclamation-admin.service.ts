@@ -9,8 +9,8 @@ import { Reclamation } from '../reclamationvAdmin';
 })
 export class ReclamationAdminService {
 
-  private reclamationApiUrl = 'http://localhost:8080/api/reclamations';
-  private imageApiUrl = 'http://localhost:8080/api/images';
+  private reclamationApiUrl = 'http://localhost:9090/api/reclamations';
+  private imageApiUrl = 'http://localhost:9090/api/images';
 
   constructor(private http: HttpClient) {}
 
