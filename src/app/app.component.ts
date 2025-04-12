@@ -12,11 +12,12 @@ import { EnicargyDashboardComponent } from "./pages/enicargy-dashboard/enicargy-
 import{ArticleListComponent} from './pages/article-list/article-list.component';
 import {AdminDashboardComponent} from './pages/admin-dashboard/admin-dashboard.component';
 import{PageReclamationsComponent} from './pages/AdminPages/page-reclamations/page-reclamations.component';
+import { LogisticDashboardComponent } from './pages/logistic-dashboard/logistic-dashboard.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RegisterComponent, SeConnecterComponent, HeaderComponent,PageReclamationsComponent, DashboardComponent, MenuComponent, ReclamationHistoriqueComponent, AddClaimComponent, StatisticsComponent, EnicargyDashboardComponent, ArticleListComponent,AdminDashboardComponent],
+  imports: [RouterOutlet, RegisterComponent, SeConnecterComponent, HeaderComponent,PageReclamationsComponent, DashboardComponent, MenuComponent, ReclamationHistoriqueComponent, AddClaimComponent, StatisticsComponent, EnicargyDashboardComponent, ArticleListComponent,AdminDashboardComponent,LogisticDashboardComponent],
   templateUrl:'./app.component.html',
   styleUrl: './app.component.css'
 })

@@ -3,11 +3,12 @@
     min-height: 100vh;
 }
 
+
 .main-content {
     flex: 1;
-    padding: 20px;
-    background-color: #f5f5f5;
-}
+    padding: 2rem;
+    margin-left: 250px; 
+  }
 
 .header {
     display: flex;
@@ -94,17 +95,46 @@
 }
 
 .bottom-row {
-    background: white;
+    background: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .doughnut-chart-section {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 30px;
 }
 
-.doughnut-chart-section .chart-container {
+.chart-container {
+    width: 250px;
     height: 250px;
 }
+
+.chart-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.en-attente { background-color:#ff6384; }
+.en-cours { background-color: #36a2eb; }
+.terminee { background-color: #4bc0c0; }

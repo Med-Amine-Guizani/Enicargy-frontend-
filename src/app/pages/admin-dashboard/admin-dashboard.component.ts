@@ -45,6 +45,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   constructor( private chartService: ChartService) {}
 
   ngOnInit() {
+    
     this.chartService.getConsumptionData().subscribe(data => {
       this.consumptionData = data;
     });
@@ -162,6 +163,8 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
       }
     });
   }
+ 
+  
   getProgressBarClass(value: number, max: number): string {
     const percentage = (value / max) * 100;
     

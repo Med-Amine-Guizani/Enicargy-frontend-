@@ -5,7 +5,7 @@
   }
   
   export interface ReclamationData {
-    enAttente: number;
+    enAttente:number;
     enCours: number;
     terminee: number;
   }

@@ -1,0 +1,84 @@
+<div class="dashboard-container">
+  <app-sidebar></app-sidebar>
+  
+  <div class="main-content">
+    <div class="header">
+      <h1>ENICARGY</h1>
+      <p>Gestion des équipements</p>
+    </div>
+    
+    <div class="stats-cards">
+      <div class="stat-card">
+        <h2>Total Équipements</h2>
+        <div class="value">{{ totalEquipments }}</div>
+      </div>
+      <div class="stat-card">
+        <h2>Bon État</h2>
+        <div class="value">{{ goodStateEquipments }}</div>
+      </div>
+      <div class="stat-card">
+        <h2>En Panne</h2>
+        <div class="value">{{ repairEquipments }}</div>
+      </div>
+      <div class="stat-card">
+        <h2>Non Réparable</h2>
+        <div class="value">{{ brokenEquipments }}</div>
+      </div>
+    </div>
+    
+    <div class="equipment-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Équipement</th>
+            <th>Total</th>
+            <th>État</th>
+            <th>Réserve</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let material of materials">
+            <td>
+              <div class="equipment-icon" [attr.data-type]="material.type"></div>
+              <span class="equipment-name">{{ material.type }}</span>
+            </td>
+            <td>{{ material.total }}</td>
+            <td>
+              <div *ngIf="material.good > 0">
+                <span class="status-dot good"></span> Bon état: {{ material.good }}
+              </div>
+              <div *ngIf="material.repair > 0">
+                <span class="status-dot warning"></span> En panne: {{ material.repair }}
+              </div>
+              <div *ngIf="material.broken > 0">
+                <span class="status-dot danger"></span> Non réparable: {{ material.broken }}
+              </div>
+            </td>
+            <td>{{ material.reserve }}</td>
+            <td><button class="update-btn">Actualiser</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="reserve-section">
+      <h3 class="reserve-title">Équipements en Panne</h3>
+      
+      <div class="chart-container">
+        <div class="doughnut-chart-wrapper">
+          <canvas #equipmentChart></canvas>
+        </div>
+        <div class="chart-legend">
+          <div *ngFor="let material of materials; let i = index" class="legend-item">
+            <div class="legend-color" [style.background-color]="['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'][i]"></div>
+            <div class="legend-text">
+              <span class="legend-name">{{ material.type }}</span>
+              <span class="legend-value">{{ material.repair }} ({{ getRepairPercentage(material) }})</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
