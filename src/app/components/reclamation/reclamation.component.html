@@ -7,12 +7,12 @@
   <p class="description">{{ reclamation?.description }}</p>
 
   <span class="state-badge" [ngClass]="stateClass">
-    {{ reclamation?.state }}
+    {{ reclamation?.status }}
   </span>
 
   <img [src]="reclamation?.photoUrl"  class="photo" (load)="onLoad()" (error)="onError()"  />
 
-  <button *ngIf="reclamation?.state !== 'Terminer'" (click)="changeState()" class="action-button">
-    {{ reclamation?.state === 'En attente' ? 'Résoudre' : 'Résolu' }}
+  <button *ngIf="reclamation?.status !== 'Terminer'" (click)="changeState()" class="action-button">
+    {{ reclamation?.status === 'En attente' ? 'Résoudre' : 'Résolu' }}
   </button>
 </div>

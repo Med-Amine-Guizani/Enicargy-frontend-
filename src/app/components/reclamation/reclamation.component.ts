@@ -23,7 +23,7 @@ export class ReclamationComponent implements OnInit {
   }
 
   get actionButtonLabel(): string | null {
-    switch (this.reclamation?.state) {
+    switch (this.reclamation?.status) {
       case 'En attente':
         return 'Résoudre';
       case 'En cours':
@@ -34,11 +34,11 @@ export class ReclamationComponent implements OnInit {
   }
 
   changeState(): void {
-    let newState: Reclamation['state'] | null = null;
+    let newState: Reclamation['status'] | null = null;
 
-    if (this.reclamation?.state === 'En attente') {
+    if (this.reclamation?.status === 'En attente') {
       newState = 'En cours';
-    } else if (this.reclamation?.state === 'En cours') {
+    } else if (this.reclamation?.status === 'En cours') {
       newState = 'Terminer';
     }
 
@@ -47,7 +47,7 @@ export class ReclamationComponent implements OnInit {
         .subscribe(
           updated => {
             if (this.reclamation) {
-              this.reclamation.state = updated.state;
+              this.reclamation.status = updated.status;
             }
             console.log('Reclamation state updated:', updated);
           },
@@ -59,7 +59,7 @@ export class ReclamationComponent implements OnInit {
   }
 
   get stateClass(): string {
-    switch (this.reclamation?.state) {
+    switch (this.reclamation?.status) {
       case 'En attente':
         return 'attente';
       case 'En cours':
