@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Article} from '../../../article';
+import { Article} from '../../../models/article';
 import { CommonModule } from '@angular/common';
 import { ArticleAdminComponent } from '../../../components/article-admin/article-admin.component';
 import { ArticleService } from '../../../services/article.service';

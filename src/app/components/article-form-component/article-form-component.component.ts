@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Input, Output, EventEmitter } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { Article } from '../../article';
+import { Article } from '../../models/article';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 @Component({

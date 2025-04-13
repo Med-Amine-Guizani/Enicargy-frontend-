@@ -3,7 +3,7 @@ import { ReclamationsService } from '../../services/reclamations.service';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Reclamation, RessourceType } from '../../reclamation';
+import { Reclamation, RessourceType } from '../../models/reclamation';
 export enum StatutReclamation {
   TERMINEE = 'Terminée',
   EN_COURS = 'En cours',

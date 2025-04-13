@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReclamationsService } from '../../../services/reclamations.service';
-import { Reclamation } from '../../../reclamation';
+import { Reclamation } from '../../../models/reclamation';
 
 export enum StatutReclamation {
   TERMINEE = 'Terminée',

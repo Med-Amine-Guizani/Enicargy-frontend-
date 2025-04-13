@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ReclamationComponent } from '../../../components/reclamation/reclamation.component';
 import { DashboardComponent } from '../../../components/dashboard/dashboard.component';
-import { FooterComponent } from '../../../footer/footer.component';
+import { FooterComponent } from '../../../components/footer/footer.component';
 import { HeaderComponent } from '../../../components/header/header.component';
-import { Reclamation } from '../../../reclamationvAdmin';
+import { Reclamation } from '../../../models/reclamationvAdmin';
 import { ReclamationAdminService } from '../../../services/reclamation-admin.service';
 import { CommonModule } from '@angular/common';
 @Component({

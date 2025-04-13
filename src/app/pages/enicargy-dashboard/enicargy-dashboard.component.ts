@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
-import { EnicargyDashboardService } from '../../enicargy-dashboard.service';
+import { EnicargyDashboardService } from '../../services/enicargy-dashboard.service';
 
 @Component({
   selector: 'app-enicargy-dashboard',

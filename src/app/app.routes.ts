@@ -18,5 +18,6 @@ export const routes: Routes = [
     {path:'seconnecter',component:SeConnecterComponent},
     {path:'stat',component:StatisticsComponent},
     {path:'register',component:RegisterComponent},
-    {path:'articlelist',component:ArticleListComponent}
+    {path:'articlelist',component:ArticleListComponent},
+    {path:'admin-article',component:ArticleAdminComponent},
 ];

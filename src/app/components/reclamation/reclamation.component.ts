@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReclamationAdminService } from '../../services/reclamation-admin.service';
-import { Reclamation } from '../../reclamationvAdmin';
+import { Reclamation } from '../../models/reclamationvAdmin';
 
 @Component({
   selector: 'app-reclamation',

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RapportComponent } from '../../../components/rapport/rapport.component';
-import { Rapport } from '../../../rapport';
+import { Rapport } from '../../../models/rapport';
 import { RapportsListComponent } from '../../../components/rapports-list/rapports-list.component';
 import { RapportService } from '../../../services/rapport.service';
 import { CommonModule } from '@angular/common';

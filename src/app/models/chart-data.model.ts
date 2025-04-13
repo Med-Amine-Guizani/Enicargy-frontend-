@@ -18,3 +18,25 @@
     min: number;
     reclamations: number
   }
+
+  export interface Reclamation {
+    id?: number;
+    title: string;
+    description: string;
+    date: string;
+    local: string;
+    salle: string;
+    status: 'En attente' | 'En cours' | 'Terminer';
+    photoUrl?: string;
+  }
+  export interface Rapport {
+    id : number ;
+    title : string ;
+    date : string ;
+}
+
+export interface Article {
+    id : number ;
+    title : string ;
+    text : string ;
+}

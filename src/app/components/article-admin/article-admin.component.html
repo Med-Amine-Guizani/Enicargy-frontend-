@@ -2,7 +2,7 @@
   <!-- View Mode -->
   <div class="content" *ngIf="!editMode">
     <h2 class="title">{{ article.title }}</h2>
-    <img class="article-image" src="article-image.webp" alt="Article image">
+    <img class="article-image" src="/src/app/images/article-image.webp" alt="Article image">
     <p class="text">{{ article.text }}</p>
   </div>
   
@@ -36,14 +36,14 @@
   <!-- Actions for View Mode -->
   <div class="actions" *ngIf="!editMode">
     <button class="btn edit" (click)="startEdit()">
-      <img src="editing.png" class="btn-icon" alt="Edit icon">
+      <img src="/src/app/images/editing.png" class="btn-icon" alt="Edit icon">
       Edit
     </button>
     <button class="btn view-more" (click)="handleVoirPlus()">
       Voir Plus
     </button>
     <button class="btn delete" (click)="onDelete.emit(article.id)">
-      <img src="delete.png" class="btn-icon" alt="Delete icon">
+      <img src="/src/app/images/delete.png" class="btn-icon" alt="Delete icon">
       Delete
     </button>
   </div>

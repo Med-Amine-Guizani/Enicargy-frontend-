@@ -1,5 +1,5 @@
 import { Component, Input ,Output , EventEmitter } from '@angular/core';
-import { Rapport } from '../../rapport';
+import { Rapport } from '../../models/rapport';
 import { RapportComponent } from '../rapport/rapport.component';
 import { CommonModule } from '@angular/common';
 @Component({

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Rapport } from '../rapport'
+import { Rapport } from '../models/rapport'
 import { Observable, of, throwError } from 'rxjs';
 import { delay, tap } from 'rxjs/operators';
 @Injectable({
