@@ -15,7 +15,7 @@
   .image-section {
     width:50%;
     height: 100%;
-    background-image: url("C:/Users/ASUS/Desktop/Enicargy-frontend-/public/ecologie-energie.webp");
+    background-image: url('/energysave.jpg');
     background-size: cover;
     background-position: center;
   }

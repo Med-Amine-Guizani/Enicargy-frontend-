@@ -15,6 +15,7 @@ export class SeConnecterComponent {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      terms: [false, Validators.requiredTrue]
     });
   }
 

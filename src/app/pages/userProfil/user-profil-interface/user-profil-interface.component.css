@@ -1,0 +1,56 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column; /* Menu en haut, contenu en dessous */
+    height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fefefe;
+  }
+  
+  .menu-bar {
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    z-index: 10;
+    display:inline;
+    justify-content:end;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    overflow-y: auto;
+  }
+  
+  /* Partie supérieure : éléments côte à côte (en ligne) */
+  .top-section {
+    display: flex;
+    flex-direction: row; /* Affiche les composants en ligne */
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  
+  /* Ajustement largeur des blocs */
+  app-statistics,
+  app-score {
+    flex: 1;
+    padding: 1rem;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .bottom-section {
+    width: 100%;
+  }
+  
+  app-reclamation-historique {
+    display: block;
+    padding: 1rem;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }

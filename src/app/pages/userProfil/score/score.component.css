@@ -1,0 +1,51 @@
+.score-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .bar-wrapper {
+    flex-grow: 1;
+    position: relative;
+    height: 30px;
+  }
+  
+  .score-bar {
+    position: relative;
+    height: 4px;
+    background: wheat;
+    border-radius: 2px;
+    margin-right: 20px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+  
+  .score-fill {
+    position: absolute;
+    height: 100%;
+    background-color: rgba(0, 229, 255, 0.4);
+    width: 0;
+    transition: width 0.5s ease;
+  }
+  
+  .dot {
+    position: absolute;
+    top: -4px;
+    width: 10px;
+    height: 10px;
+    background-color: #00e5ff;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    transition: background-color 0.3s ease;
+  }
+  
+  .dot.active {
+    background-color: #4caf50;
+  }
+  
+  .score-text {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  

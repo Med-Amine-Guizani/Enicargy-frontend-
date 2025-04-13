@@ -1,0 +1,19 @@
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+
+
+.chart-container:last-child {
+    margin-bottom: 0;
+}
+canvas {
+    width:  100%!important;
+    height: auto !important;
+  }
+  
