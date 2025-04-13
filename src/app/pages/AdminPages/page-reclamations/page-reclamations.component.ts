@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ReclamationComponent } from '../../../components/reclamation/reclamation.component';
-import { DashboardComponent } from '../../../components/dashboard/dashboard.component';
 import { FooterComponent } from '../../../components/footer/footer.component';
 import { HeaderComponent } from '../../../components/header/header.component';
 import { Reclamation } from '../../../models/reclamationvAdmin';
@@ -9,7 +8,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-page-reclamations',
   standalone: true,
-  imports: [ReclamationComponent,DashboardComponent,HeaderComponent,CommonModule],
+  imports: [ReclamationComponent,HeaderComponent,CommonModule],
   templateUrl: './page-reclamations.component.html',
   styleUrl: './page-reclamations.component.css'
 })

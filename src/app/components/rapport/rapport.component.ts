@@ -12,4 +12,5 @@ import { Output , EventEmitter } from '@angular/core';
 export class RapportComponent {
   @Input({required:true}) rapport! : Rapport; 
   @Output() onDelete = new EventEmitter<number>();
+  imagePath = 'assets/images/pdf.png';
 }

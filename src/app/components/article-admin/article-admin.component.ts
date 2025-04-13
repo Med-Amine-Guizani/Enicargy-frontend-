@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './article-admin.component.css'
 })
 export class ArticleAdminComponent {
-  @Input({ required: true }) article!: Article;
+  @Input() article!: Article;
   @Output() onEdit = new EventEmitter<Article>();
   @Output() onDelete = new EventEmitter<number>();
   @Output() onCancelEdit = new EventEmitter<void>();

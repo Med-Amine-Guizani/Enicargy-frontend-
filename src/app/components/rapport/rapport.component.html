@@ -1,13 +1,13 @@
 <div class="rapport-container">
     <div class="container">
 
-        <img src="/pdf.png" alt="Logo" class="logo">
+        <img [src]="'assets/images/pdf.png'" alt="Logo" class="logo">
         
         <p class="title">{{rapport.title}}</p>
         
         <div class="options">
-        <button><img src="/download.png" alt="" class="icon"></button>
-        <button (click)="onDelete.emit(rapport.id)"><img src="/delete.png" alt="" class="icon"></button>
+        <button><img src="assets/images/download.png" alt="" class="icon"></button>
+        <button (click)="onDelete.emit(rapport.id)"><img src="assets/images/delete.png" alt="" class="icon"></button>
         </div>
         </div>
         <div class="date">

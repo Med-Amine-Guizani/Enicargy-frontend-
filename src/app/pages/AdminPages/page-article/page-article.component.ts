@@ -12,7 +12,7 @@ import { ArticleFormComponentComponent } from '../../../components/article-form-
   styleUrl: './page-article.component.css'
 })
 export class PageArticleComponent {
-  articles: Article[] = [];
+  articles: any[] = [];
   loading = false;
   showAddForm = false;
 
@@ -82,12 +82,9 @@ export class PageArticleComponent {
   saveNewArticle(newArticle: Article): void {
     this.loading = true;
     
-    // In a real implementation, you would call the service:
-    // this.articleService.createArticle(newArticle).subscribe({...})
     
-    // For now, let's simulate an API call
     setTimeout(() => {
-      // Generate a new ID (in a real app this would come from the backend)
+     
       const maxId = this.articles.length > 0 
         ? Math.max(...this.articles.map(a => a.id)) 
         : 0;

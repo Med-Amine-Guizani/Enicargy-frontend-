@@ -1,11 +1,13 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import {ChartService } from '../../services/chart.service';
+import {ChartService } from '../../../services/chart.service';
 import { CommonModule } from '@angular/common';
-
+import { forkJoin } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
-import{ConsumptionData,ReclamationData,UtilisationStats} from '../../models/chart-data.model';
-import { SidebarComponent } from '../../components/sidebar/sidebar.component';
+import{ConsumptionData,ReclamationData,UtilisationStats} from '../../../models/chart-data.model';
+import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
 import { Chart, ChartConfiguration, ChartTypeRegistry, registerables  } from 'chart.js';
+import { LogisticsService } from '../../../services/logistics.service';
+import { LogisticsMonitoringComponent } from '../../../components/logistics-monitoring/logistics-monitoring.component';
 Chart.register(...registerables);
 
 @Component({
@@ -13,12 +15,17 @@ Chart.register(...registerables);
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css'],
   standalone: true,
-  imports: [CommonModule, MatIconModule, SidebarComponent],
+  imports: [CommonModule, MatIconModule, SidebarComponent,LogisticsMonitoringComponent],
   providers: [ChartService] 
 })
 export class AdminDashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('lineChart') lineChartRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('doughnutChart') doughnutChartRef!: ElementRef<HTMLCanvasElement>;
+
+  isLoading:boolean=true;
+  chairs: number = 0;
+  tables: number = 0;
+  projectors: number = 0;
 
   private lineChart?: Chart;
   private doughnutChart?: Chart;
@@ -42,9 +49,20 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
 
   };
 
-  constructor( private chartService: ChartService) {}
+  constructor( private chartService: ChartService ,private logisticsService: LogisticsService) {}
 
   ngOnInit() {
+    // Example using forkJoin if all values load together
+    forkJoin({
+      chairs: this.logisticsService.getChairs(),
+      tables: this.logisticsService.getDesks(),
+      projectors: this.logisticsService.getProjectors(),
+    }).subscribe(data => {
+      this.chairs = data.chairs;
+      this.tables = data.tables;
+      this.projectors = data.projectors;
+      this.isLoading = false; // 🔥 turn off loading once data is ready
+    });
     
     this.chartService.getConsumptionData().subscribe(data => {
       this.consumptionData = data;
@@ -172,4 +190,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     if (percentage < 70) return 'medium';
     return 'high';
   }
+    
+  
+    
 }

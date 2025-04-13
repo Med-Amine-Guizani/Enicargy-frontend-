@@ -1,20 +1,54 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; 
-import { MatIconModule } from '@angular/material/icon';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
-  standalone: true,
-  imports: [CommonModule, MatIconModule]
 })
 export class SidebarComponent {
-  menuItems = [
-    { icon: 'person', label: 'Reclamation', active: false },
-    { icon: 'dashboard', label: 'Dashboard', active: false },
-    { icon: 'article', label: 'Generer Article', active: false },
-    { icon: 'assessment', label: 'Rapport', active: false },
-    { icon: 'local_shipping', label: 'Logistic', active: false }
+  @Output() navigateTo = new EventEmitter<string>();
+
+  selected: string = 'dashboard';
+
+  sidebarOptions = [
+    {
+      label: 'Reclamation',
+      path: 'reclamation',
+      icon: 'https://img.icons8.com/color/48/complaint.png',
+    },
+    {
+      label: 'Dashboard',
+      path: 'dashboard',
+      icon: 'https://img.icons8.com/color/48/combo-chart--v1.png',
+    },
+    {
+      label: 'Generer un Article',
+      path: 'article',
+      icon: 'https://img.icons8.com/color/48/add-file.png',
+    },
+    {
+      label: 'Rapports',
+      path: 'rapport',
+      icon: 'https://img.icons8.com/color/48/report-card.png',
+    },
+    {
+      label: 'Logistic',
+      path: 'logistic',
+      icon: 'https://img.icons8.com/color/48/delivery.png',
+    },
   ];
+
+
+
+  
+
+  select(path: string): void {
+    this.selected = path;
+    this.navigateTo.emit(path);
+  }
+
+
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageDashboardComponent } from './page-dashboard.component';
+import { PageAdminComponent } from './page-admin.component';
 
-describe('PageDashboardComponent', () => {
-  let component: PageDashboardComponent;
-  let fixture: ComponentFixture<PageDashboardComponent>;
+describe('PageAdminComponent', () => {
+  let component: PageAdminComponent;
+  let fixture: ComponentFixture<PageAdminComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PageDashboardComponent]
+      imports: [PageAdminComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PageDashboardComponent);
+    fixture = TestBed.createComponent(PageAdminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

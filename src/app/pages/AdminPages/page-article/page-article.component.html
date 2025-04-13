@@ -19,7 +19,7 @@
     <div class="loading-spinner"></div>
   </div>
   
-  <div class="articles-list">
+  <div *ngIf="articles.length > 0 " class="articles-list">
     <app-article-admin 
       *ngFor="let article of articles"
       [article]="article"

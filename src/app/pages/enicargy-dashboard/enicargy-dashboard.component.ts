@@ -19,13 +19,37 @@ export class EnicargyDashboardComponent implements OnInit {
   reclamationData: { total: number[]; terminee: number[] } = { total: [], terminee: [] };
   participationData: { name: string; value: number; color: string }[] = [];
 
+  loadMockData(): void {
+    this.consommationData = {
+      electricite: [120, 130, 110, 140, 150, 160, 170, 160, 150, 140, 130, 120],
+      eau: [80, 90, 70, 85, 95, 100, 105, 95, 90, 85, 80, 75]
+    };
+  
+    this.reclamationData = {
+      total: [5, 8, 10, 12, 15, 20, 18, 17, 12, 10, 6, 4],
+      terminee: [3, 5, 7, 9, 12, 16, 14, 15, 10, 9, 5, 3]
+    };
+  
+    this.participationData = [
+      { name: 'Participé', value: 60, color: '#4caf50' },
+      { name: 'Non Participé', value: 40, color: '#f44336' }
+    ];
+  
+    this.initConsommationChart();
+    this.initReclamationChart();
+    this.initParticipationChart();
+  }
+
   mois = ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'];
+
+
 
   constructor(private dashboardService: EnicargyDashboardService) {
     Chart.register(...registerables);
   }
 
   ngOnInit(): void {
+    this.loadMockData();
     this.dashboardService.getConsommationData().subscribe(data => {
       this.consommationData = data;
       this.initConsommationChart();

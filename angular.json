@@ -21,17 +21,11 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+  "src/favicon.ico",
+  "src/assets"
+],
             "styles": [
-<<<<<<< HEAD
-              "@angular/material/prebuilt-themes/rose-red.css",
-=======
               "@angular/material/prebuilt-themes/azure-blue.css",
->>>>>>> amineAdminApp
               "src/styles.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
@@ -98,11 +92,7 @@
               }
             ],
             "styles": [
-<<<<<<< HEAD
-              "@angular/material/prebuilt-themes/rose-red.css",
-=======
               "@angular/material/prebuilt-themes/azure-blue.css",
->>>>>>> amineAdminApp
               "src/styles.css"
             ],
             "scripts": []

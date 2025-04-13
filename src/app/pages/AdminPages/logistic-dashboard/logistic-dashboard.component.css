@@ -12,7 +12,6 @@ body {
 .main-content {
   flex: 1;
   padding: 2rem;
-  margin-left: 250px;
 }
 .header {
   margin-bottom: 2rem;
@@ -222,27 +221,27 @@ td {
 
 /* Styles pour les images d'équipement */
 .equipment-icon[data-type="Chaise"] { 
-  background-image: url('../../images/Chaise.jpeg'); 
+  background-image: url('../../../../assets/images/Chaise.jpeg'); 
 }
 
 .equipment-icon[data-type="Bureau"] { 
-  background-image: url('../../images/Bureau.jpg'); 
+  background-image: url('../../../../assets/images/Bureau.jpg'); 
 }
 
 .equipment-icon[data-type="Ordinateur"] { 
-  background-image: url('../../images/Oridanteur.jpeg'); 
+  background-image: url('../../../../assets/images/Oridanteur.jpeg'); 
 }
 
 .equipment-icon[data-type="EcranProjection"] { 
-  background-image: url('../../images/Ecran.jpg'); 
+  background-image: url('../../../../assets/images/Ecran.jpg'); 
 }
 
 .equipment-icon[data-type="Cables"] { 
-  background-image: url('../../images/Cables.jpeg'); 
+  background-image: url('../../../../assets/images/Cables.jpeg'); 
 }
 
 .equipment-icon[data-type="Projecteur"] { 
-  background-image: url('../../images/Projecteur.png'); 
+  background-image: url('../../../../assets/images/Projecteur.png'); 
 }
 
 

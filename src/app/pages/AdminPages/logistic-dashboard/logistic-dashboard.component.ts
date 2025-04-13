@@ -3,8 +3,8 @@ import { Chart, ChartConfiguration, ChartTypeRegistry, registerables  } from 'ch
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { SidebarComponent } from '../../components/sidebar/sidebar.component';
-import { LogisticDashboardService } from '../../services/logistic-dashboard.service';
+import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
+import { LogisticDashboardService } from '../../../services/logistic-dashboard.service';
 
 
 // Enregistrer les composants Chart.js
@@ -44,7 +44,7 @@ export class LogisticDashboardComponent implements OnInit, AfterViewInit {
     // Créer le graphique une fois que la vue est initialisée
     setTimeout(() => {
       this.createDoughnutChart();
-    }, 0);
+    }, 20);
   }
   
   // Cette méthode sera remplacée par un appel API réel

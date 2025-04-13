@@ -15,7 +15,7 @@
   .image-section {
     width:50%;
     height: 100%;
-    background-image: url('/energysave.jpg');
+    background-image: url('../../../assets/images/energysave.jpg');
     background-size: cover;
     background-position: center;
   }
