@@ -27,7 +27,11 @@
               }
             ],
             "styles": [
+<<<<<<< HEAD
               "@angular/material/prebuilt-themes/rose-red.css",
+=======
+              "@angular/material/prebuilt-themes/azure-blue.css",
+>>>>>>> amineAdminApp
               "src/styles.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
@@ -94,7 +98,11 @@
               }
             ],
             "styles": [
+<<<<<<< HEAD
               "@angular/material/prebuilt-themes/rose-red.css",
+=======
+              "@angular/material/prebuilt-themes/azure-blue.css",
+>>>>>>> amineAdminApp
               "src/styles.css"
             ],
             "scripts": []

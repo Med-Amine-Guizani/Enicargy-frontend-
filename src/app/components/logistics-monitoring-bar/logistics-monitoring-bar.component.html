@@ -1,0 +1,24 @@
+<div class="status-container">
+    <div class="status-header">
+      <div class="header" >
+        <span class="icon"><img src={{icon}} alt=""></span>
+        <span class="count">{{ current }}</span>
+      </div>
+      <span class="warning" *ngIf="warning">⚠️</span>
+    </div>
+    <div class="bar-labels">
+      <div class="min-label" [style.left.%]="minPercent">Min</div>
+    </div>
+  
+    <div class="bar-wrapper">
+      <div class="bar-bg">
+        <div class="bar-fill" [style.width.%]="progressPercent"></div>
+        <div class="bar-remaining" [style.width.%]="100" ></div>
+        <div class="min-marker" [style.left.%]="minPercent"></div>
+      </div>
+    </div>
+  </div>
+
+
+
+

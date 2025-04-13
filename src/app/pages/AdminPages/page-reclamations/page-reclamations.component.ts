@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common';
   selector: 'app-page-reclamations',
   standalone: true,
   imports: [ReclamationComponent,DashboardComponent,HeaderComponent,CommonModule],
-  providers: [ReclamationAdminService],
   templateUrl: './page-reclamations.component.html',
   styleUrl: './page-reclamations.component.css'
 })
@@ -31,8 +30,8 @@ export class PageReclamationsComponent {
     this.reclamationService.getAllReclamations().subscribe({
       next: (data) => {
         this.reclamations = data;
-        this.reclamationsEnAttente = data.filter(reclamation => reclamation.state === 'En attente');
-        this.reclamationsEnCours = data.filter(reclamation => reclamation.state === 'En cours');
+        this.reclamationsEnAttente = data.filter(reclamation => reclamation.status === 'En attente');
+        this.reclamationsEnCours = data.filter(reclamation => reclamation.status === 'En cours');
         this.isLoading = false;
         this.errorMessage = '';  // Clear any error message
       },
