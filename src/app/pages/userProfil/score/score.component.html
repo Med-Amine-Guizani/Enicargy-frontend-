@@ -1,0 +1,17 @@
+<div class="score-container">
+    <div class="bar-wrapper">
+      <div class="score-bar">
+        <div class="score-fill" [ngStyle]="{ width: score + '%' }"></div>
+        <div 
+          class="dot" 
+          *ngFor="let point of points"
+          [ngClass]="{ active: score >= point }"
+          [ngStyle]="{ left: point + '%' }"
+        ></div>
+      </div>
+    </div>
+    <div class="score-text">
+      <span><em>Score:</em> <strong>{{ score }}</strong></span>
+    </div>
+  </div>
+  

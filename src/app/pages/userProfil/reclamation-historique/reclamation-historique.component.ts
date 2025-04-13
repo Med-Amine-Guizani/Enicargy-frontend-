@@ -24,12 +24,12 @@ export class ReclamationHistoriqueComponent {
   // Définition de claim avec l'interface
   claim: Reclamation = {
     location: "",
-    ressource: "",
+    ressource: null,
     probleme: "",
     description: "",
     dateClaim: new Date(),
     statut: StatutReclamation.EN_ATTENTE,
-    score: 0
+    photo: null
   };
 
   constructor(public _claims: ReclamationsService) {}

@@ -1,8 +1,44 @@
-<section>
-    <input [(ngModel)]="claim.location" type="texte" name="" id="" placeholder="Principale/Annexe">
-    <input [(ngModel)]="claim.ressource"type="texte" name="" id="" placeholder="typr de ressources">
-    <input [(ngModel)]="claim.probleme" type="texte" name="" id="" placeholder="Probleme">
-    <input [(ngModel)]="claim.description" type="texte" name="" id="" placeholder="description">
-    <button (click)="ajouterReclamation()">envoyer</button>
-</section>
-<li routerLink="/userInterface" routerLinkActive="active">vister compte</li>
+<body>
+  <div class="container">
+    <!-- Partie gauche -->
+    <div class="left-panel">
+      <p class="thank-you">
+        <strong>Toute la Famille <br />
+        EnicarGy vous <br />
+        remercie pour <br />
+        votre <br />
+        Participation</strong>
+        </p>
+    </div>
+  
+    <!-- Ligne de séparation -->
+    <div class="divider"></div>
+  
+    <!-- Partie droite (formulaire) -->
+    <section class="form-section">
+      <input [(ngModel)]="claim.location" type="text" placeholder="Principale/Annexe" />
+  
+      <div class="toggle-group">
+        <label *ngFor="let res of ressources" [class.selected]="claim.ressource === res">
+          <input
+            type="radio"
+            name="ressource"
+            [value]="res"
+            [(ngModel)]="claim.ressource"
+          />
+          {{ res }}
+        </label>
+      </div>
+  
+      <input [(ngModel)]="claim.probleme" type="text" placeholder="Problème" />
+      <textarea [(ngModel)]="claim.description" placeholder="Description"></textarea>
+      <input type="file" (change)="onFileSelected($event)" />
+  
+      <button (click)="ajouterReclamation()">Envoyer Réclamation</button>
+    </section>
+  </div>
+  
+  <!-- Lien vers interface utilisateur -->
+  <li routerLink="/userInterface" routerLinkActive="active">Visiter compte</li>
+  
+</body>
