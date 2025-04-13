@@ -99,7 +99,6 @@ export class StatisticsComponent implements OnInit {
             labels: {
               boxWidth: 12,
               padding: 16,
-              boxPadding: 14
             }
           },
           tooltip: {
