@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { stat } from 'fs';
 import { AddClaimComponent } from './pages/add-claim/add-claim.component';
+import { ArticleListComponent } from './pages/article-list/article-list.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { SeConnecterComponent } from './pages/se-connecter/se-connecter.component';
 import { StatisticsComponent } from './pages/userProfil/statistics/statistics.component';
@@ -17,8 +18,5 @@ export const routes: Routes = [
     {path:'seconnecter',component:SeConnecterComponent},
     {path:'stat',component:StatisticsComponent},
     {path:'register',component:RegisterComponent},
-    {path:'reclamation-admin',component:PageReclamationsComponent},
-    {path:'article-admin',component:PageArticleComponent},
-    {path:'dashboard-admin',component:PageDashboardComponent},
-    {path:'rapport-admin',component:PageRapportConsomationComponent}
+    {path:'articlelist',component:ArticleListComponent}
 ];

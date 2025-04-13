@@ -10,14 +10,12 @@ import { AddClaimComponent } from './pages/add-claim/add-claim.component';
 import { StatisticsComponent } from './pages/userProfil/statistics/statistics.component';
 import { EnicargyDashboardComponent } from "./pages/enicargy-dashboard/enicargy-dashboard.component";
 import{ArticleListComponent} from './pages/article-list/article-list.component';
-import {AdminDashboardComponent} from './pages/admin-dashboard/admin-dashboard.component';
-import{PageReclamationsComponent} from './pages/AdminPages/page-reclamations/page-reclamations.component';
-import { LogisticDashboardComponent } from './pages/logistic-dashboard/logistic-dashboard.component';
+import { UserProfilInterfaceComponent } from './pages/userProfil/user-profil-interface/user-profil-interface.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RegisterComponent, SeConnecterComponent, HeaderComponent,PageReclamationsComponent, DashboardComponent, MenuComponent, ReclamationHistoriqueComponent, AddClaimComponent, StatisticsComponent, EnicargyDashboardComponent, ArticleListComponent,AdminDashboardComponent,LogisticDashboardComponent],
+  imports: [RouterOutlet,UserProfilInterfaceComponent, RegisterComponent, SeConnecterComponent, HeaderComponent, DashboardComponent, MenuComponent, ReclamationHistoriqueComponent, AddClaimComponent, StatisticsComponent, EnicargyDashboardComponent, ArticleListComponent],
   templateUrl:'./app.component.html',
   styleUrl: './app.component.css'
 })
