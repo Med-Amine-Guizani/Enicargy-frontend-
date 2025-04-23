@@ -12,15 +12,17 @@ import { PageArticleComponent } from './pages/AdminPages/page-article/page-artic
 import { LogisticDashboardComponent } from './pages/AdminPages/logistic-dashboard/logistic-dashboard.component';
 import { RapportComponent } from './components/rapport/rapport.component';
 import { PageRapportConsomationComponent } from './pages/AdminPages/page-rapport-consomation/page-rapport-consomation.component';
+import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-    {path:'addclaim',component:AddClaimComponent},
-    {path:'userInterface',component:UserProfilInterfaceComponent},
+    {path:'',redirectTo:'seconnecter',pathMatch:'full'},
+    {path:'addclaim',component:AddClaimComponent,canActivate: [AuthGuard]},
+    {path:'userInterface',component:UserProfilInterfaceComponent,canActivate: [AuthGuard]},
     {path:'seconnecter',component:SeConnecterComponent},
     {path:'register',component:RegisterComponent},
-    {path:'articlelist',component:ArticleListComponent},
-    {path:'consommation',component:EnicargyDashboardComponent},
-    {path:'admin',component:PageAdminComponent,
+    {path:'articlelist',component:ArticleListComponent,canActivate: [AuthGuard]},
+    {path:'consommation',component:EnicargyDashboardComponent,canActivate: [AuthGuard]},
+    {path:'admin',component:PageAdminComponent,canActivate: [AuthGuard], data: { requiresAdmin: true },
         children:[
             {path:'',redirectTo:'dashboard',pathMatch:'full'},
             {path:'dashboard',component:AdminDashboardComponent},
