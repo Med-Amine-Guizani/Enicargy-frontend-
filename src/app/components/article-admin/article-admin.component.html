@@ -1,0 +1,60 @@
+<div class="article-card" [class.editing]="editMode">
+  <!-- View Mode -->
+  <div class="content" *ngIf="!editMode">
+    <h2 class="title">{{ article.title }}</h2>
+    <img class="article-image" src="assets/images/article-image.webp" alt="Article image">
+    <p class="text">{{ article.text }}</p>
+  </div>
+  
+  <!-- Edit Mode -->
+  <div class="content edit-content" *ngIf="editMode">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input 
+        type="text" 
+        id="title" 
+        class="form-control" 
+        [(ngModel)]="editedArticle.title" 
+        placeholder="Article title"
+        required
+      >
+    </div>
+    
+    <div class="form-group">
+      <label for="content">Content</label>
+      <textarea 
+        id="content" 
+        class="form-control" 
+        [(ngModel)]="editedArticle.text" 
+        placeholder="Article content" 
+        rows="5"
+        required
+      ></textarea>
+    </div>
+  </div>
+
+  <!-- Actions for View Mode -->
+  <div class="actions" *ngIf="!editMode">
+    <button class="btn edit" (click)="startEdit()">
+      <img src="assets/images/editing.png" class="btn-icon" alt="Edit icon">
+      Edit
+    </button>
+    <button class="btn view-more" (click)="handleVoirPlus()">
+      Voir Plus
+    </button>
+    <button class="btn delete" (click)="onDelete.emit(article.id)">
+      <img src="assets/images/delete.png" class="btn-icon" alt="Delete icon">
+      Delete
+    </button>
+  </div>
+  
+  <!-- Actions for Edit Mode -->
+  <div class="actions edit-actions" *ngIf="editMode">
+    <button class="btn save" [disabled]="!isValid()" (click)="saveEdit()">
+      Save
+    </button>
+    <button class="btn cancel" (click)="cancelEdit()">
+      Cancel
+    </button>
+  </div>
+</div>

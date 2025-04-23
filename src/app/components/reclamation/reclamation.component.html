@@ -1,0 +1,18 @@
+<div class="reclamation-card">
+  <p class="date">{{ reclamation?.date }}</p>
+
+  <h2 class="title">{{ reclamation?.title }}</h2>
+  <p class="location">{{ reclamation?.local }} {{ reclamation?.salle }}</p>
+
+  <p class="description">{{ reclamation?.description }}</p>
+
+  <span class="state-badge" [ngClass]="stateClass">
+    {{ reclamation?.status }}
+  </span>
+
+  <img [src]="reclamation?.photoUrl"  class="photo" (load)="onLoad()" (error)="onError()"  />
+
+  <button *ngIf="reclamation?.status !== 'Terminer'" (click)="changeState()" class="action-button">
+    {{ reclamation?.status === 'En attente' ? 'Résoudre' : 'Résolu' }}
+  </button>
+</div>

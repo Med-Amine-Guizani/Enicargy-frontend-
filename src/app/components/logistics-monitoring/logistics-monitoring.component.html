@@ -1,0 +1,24 @@
+
+<div class="container" *ngIf="!isLoading">
+    <app-logistics-monitoring-bar
+    [icon]="'assets/images/chair.png'"
+    [max]="500"
+    [min]="300"
+    [current]="chairs"
+    ></app-logistics-monitoring-bar>
+    <app-logistics-monitoring-bar
+    [icon]="'assets/images/desk-chair.png'"
+    [max]="400"
+    [min]="300"
+    [current]="tables"
+    >
+    </app-logistics-monitoring-bar>
+    <app-logistics-monitoring-bar
+    [icon]="'assets/images/projector.png'"
+    [max]="30"
+    [min]="10"
+    [current]="projectors"
+    >
+    </app-logistics-monitoring-bar>
+</div>
+

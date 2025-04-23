@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { RegisterComponent } from './pages/register/register.component';
 import { SeConnecterComponent } from './pages/se-connecter/se-connecter.component';
 import { HeaderComponent } from './components/header/header.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MenuComponent } from './pages/userProfil/menu/menu.component';
 import { ReclamationHistoriqueComponent } from './pages/userProfil/reclamation-historique/reclamation-historique.component';
 import { AddClaimComponent } from './pages/add-claim/add-claim.component';
@@ -15,7 +14,7 @@ import { UserProfilInterfaceComponent } from './pages/userProfil/user-profil-int
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,UserProfilInterfaceComponent, RegisterComponent, SeConnecterComponent, HeaderComponent, DashboardComponent, MenuComponent, ReclamationHistoriqueComponent, AddClaimComponent, StatisticsComponent, EnicargyDashboardComponent, ArticleListComponent],
+  imports: [RouterOutlet,UserProfilInterfaceComponent, RegisterComponent, SeConnecterComponent, HeaderComponent, MenuComponent, ReclamationHistoriqueComponent, AddClaimComponent, StatisticsComponent, EnicargyDashboardComponent, ArticleListComponent],
   templateUrl:'./app.component.html',
   styleUrl: './app.component.css'
 })

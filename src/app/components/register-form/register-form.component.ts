@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule } from '@angular/forms';
-
+import {AuthService} from '../../services/auth.service';
 @Component({
   selector: 'app-register-form',
   standalone: true,
@@ -12,29 +12,38 @@ export class RegisterFormComponent {
   result = "";
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder , private authService: AuthService) {
     this.registerForm = this.fb.group({
-      statut: ['', Validators.required],
-      nom: ['', Validators.required],
+      role: ['', Validators.required],
+      username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      terms: [false, Validators.requiredTrue]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   onSubmit() {
     if (this.registerForm.valid) {
-      console.log("Formulaire soumis avec succès !");
-      this.result = "Formulaire soumis avec succès !"; // Affichez ce message dans le template si nécessaire
+      
+      const formData = this.registerForm.value;
+      console.log("Formulaire valide", formData);
+      this.authService.register(formData).subscribe(
+        response => {
+          console.log("Inscription réussie", response);
+          this.result="Inscription réussie"
+        },
+        error => {
+          console.error("Erreur lors de l'inscription", error);
+          this.result="Erreur lors de l'inscription"
+        }
+      );
     } else {
       console.log("Formulaire invalide");
       this.result="Erreur"
     }
   }
-  inscrireAvecGoogle(){
+  
+  goToSeConncter() {
+    this.authService.goToSeConnecter();
 
-  }
-  inscrireAvecApple(){
-    
   }
 }

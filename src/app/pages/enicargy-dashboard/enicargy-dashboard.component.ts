@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
+import { EnicargyDashboardService } from '../../services/enicargy-dashboard.service';
 
 @Component({
   selector: 'app-enicargy-dashboard',
@@ -14,40 +15,60 @@ export class EnicargyDashboardComponent implements OnInit {
   chartReclamation!: Chart;
   chartParticipation!: Chart;
 
-  // Données pour les graphiques
-  consommationData = {
-    electricite: [40, 45, 65, 75, 65, 60, 70, 65, 75, 90, 85, 80],
-    eau: [135, 160, 180, 165, 140, 165, 180, 170, 160, 180, 170, 190]
-  };
+  consommationData: { electricite: number[]; eau: number[] } = { electricite: [], eau: [] };
+  reclamationData: { total: number[]; terminee: number[] } = { total: [], terminee: [] };
+  participationData: { name: string; value: number; color: string }[] = [];
 
-  reclamationData = {
-    total: [20, 15, 25, 10, 10, 15, 20, 15, 20, 10, 20, 15],
-    terminee: [16, 5, 14, 0, 10, 5, 15, 0, 10, 5, 15, 0]
-  };
-
-  participationData = [
-    { name: 'Étudiants', value: 40, color: '#4CD4B0' },
-    { name: 'Enseignants', value: 25, color: '#FFB74D' },
-    { name: 'Personnel', value: 20, color: '#FF6B6B' },
-    { name: 'Autres', value: 15, color: '#ddd' }
-  ];
+  loadMockData(): void {
+    this.consommationData = {
+      electricite: [120, 130, 110, 140, 150, 160, 170, 160, 150, 140, 130, 120],
+      eau: [80, 90, 70, 85, 95, 100, 105, 95, 90, 85, 80, 75]
+    };
+  
+    this.reclamationData = {
+      total: [5, 8, 10, 12, 15, 20, 18, 17, 12, 10, 6, 4],
+      terminee: [3, 5, 7, 9, 12, 16, 14, 15, 10, 9, 5, 3]
+    };
+  
+    this.participationData = [
+      { name: 'Participé', value: 60, color: '#4caf50' },
+      { name: 'Non Participé', value: 40, color: '#f44336' }
+    ];
+  
+    this.initConsommationChart();
+    this.initReclamationChart();
+    this.initParticipationChart();
+  }
 
   mois = ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'];
 
-  constructor() {
+
+
+  constructor(private dashboardService: EnicargyDashboardService) {
     Chart.register(...registerables);
   }
 
   ngOnInit(): void {
-    this.initConsommationChart();
-    this.initReclamationChart();
-    this.initParticipationChart();
+    this.loadMockData();
+    this.dashboardService.getConsommationData().subscribe(data => {
+      this.consommationData = data;
+      this.initConsommationChart();
+    });
+
+    this.dashboardService.getReclamationData().subscribe(data => {
+      this.reclamationData = data;
+      this.initReclamationChart();
+    });
+
+    this.dashboardService.getParticipationData().subscribe(data => {
+      this.participationData = data;
+      this.initParticipationChart();
+    });
   }
 
   initConsommationChart(): void {
     const canvas = document.getElementById('consommationChart') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d');
-    
     if (!ctx) return;
 
     const config: ChartConfiguration = {
@@ -58,18 +79,16 @@ export class EnicargyDashboardComponent implements OnInit {
           {
             label: 'Électricité',
             data: this.consommationData.electricite,
-            borderColor: '#FFD700',
-            backgroundColor: 'transparent',
-            tension: 0.4,
-            pointRadius: 0
+            borderColor: '#3f51b5',
+            backgroundColor: '#3f51b580',
+            fill: true
           },
           {
             label: 'Eau',
             data: this.consommationData.eau,
-            borderColor: '#4682B4',
-            backgroundColor: 'transparent',
-            tension: 0.4,
-            pointRadius: 0
+            borderColor: '#4caf50',
+            backgroundColor: '#4caf5080',
+            fill: true
           }
         ]
       },
@@ -79,30 +98,14 @@ export class EnicargyDashboardComponent implements OnInit {
         plugins: {
           title: {
             display: true,
-            text: 'Variation de la consommation d\'eau/électricité par mois',
+            text: 'Consommation par mois',
             font: {
               size: 14,
               weight: 'bold'
             }
           },
           legend: {
-            position: 'right',
-            labels: {
-              usePointStyle: true,
-              pointStyle: 'line'
-            }
-          }
-        },
-        scales: {
-          x: {
-            grid: {
-              color: '#f0f0f0'
-            }
-          },
-          y: {
-            grid: {
-              color: '#f0f0f0'
-            }
+            position: 'bottom'
           }
         }
       }
@@ -114,13 +117,12 @@ export class EnicargyDashboardComponent implements OnInit {
   initReclamationChart(): void {
     const canvas = document.getElementById('reclamationChart') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d');
-    
     if (!ctx) return;
 
     const config: ChartConfiguration = {
       type: 'bar',
       data: {
-        labels: ['Janv', 'Fév', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil', 'Sep', 'Oct', 'Nov', 'Déc'],
+        labels: this.mois,
         datasets: [
           {
             label: 'Réclamation totale',
@@ -169,19 +171,19 @@ export class EnicargyDashboardComponent implements OnInit {
   initParticipationChart(): void {
     const canvas = document.getElementById('participationChart') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d');
-    
     if (!ctx) return;
 
     const config: ChartConfiguration = {
       type: 'doughnut',
       data: {
         labels: this.participationData.map(item => item.name),
-        datasets: [{
-          data: this.participationData.map(item => item.value),
-          backgroundColor: this.participationData.map(item => item.color),
-          borderWidth: 0,
-        
-        }]
+        datasets: [
+          {
+            data: this.participationData.map(item => item.value),
+            backgroundColor: this.participationData.map(item => item.color),
+            borderWidth: 0
+          }
+        ]
       },
       options: {
         responsive: true,
@@ -205,7 +207,7 @@ export class EnicargyDashboardComponent implements OnInit {
           },
           tooltip: {
             callbacks: {
-              label: function(context) {
+              label: function (context) {
                 const total = context.dataset.data
                   .filter((item): item is number => typeof item === 'number')
                   .reduce((a, b) => a + b, 0);

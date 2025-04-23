@@ -1,0 +1,103 @@
+.status-container {
+    font-family: sans-serif;
+    width: 100%;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .count{
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-left: 10px;
+    padding: 20px;
+  }
+  
+  .icon {
+    width: 30px;
+    font-size: 24px;
+    margin-left: 20px;
+    margin-right: 50px;
+  }
+  
+  .bar-wrapper {
+    position: relative;
+    height: 20px;
+    background-color: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .bar-bg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      to right,
+      #eee 0,
+      #eee calc(20% - 2px),
+      white calc(20% - 2px),
+      white 20%
+    );
+  }
+  
+  .bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #2ecc71; /* green */
+    z-index: 2; /* on top */
+    transition: width 0.3s ease-in-out;
+  }
+  
+  
+  .bar-remaining {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #ff6b6b; /* red */
+    z-index: 1; /* below green */
+    transition: width 0.3s ease-in-out;
+  }
+
+  .warning {
+    color: red;
+    font-size: 24px;
+  }
+  img {
+    width: 50px;
+  }
+  .status-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+ 
+  
+  .min-marker {
+    position: absolute;
+    top: -20px;
+    width: 2px;
+    height: 40px;
+    background: #000;
+    z-index:3;
+  }
+  .bar-labels {
+    position: relative;
+    height: 20px;
+    margin-bottom: 4px;
+  }
+  
+  .min-label {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: bold;
+    color: #000;
+  }

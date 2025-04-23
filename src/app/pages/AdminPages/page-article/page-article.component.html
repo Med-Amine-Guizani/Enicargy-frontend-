@@ -1,0 +1,30 @@
+<div class="articles-container">
+  <div class="articles-header">
+    <h1>Energy and Water Management Articles</h1>
+    <button class="add-article-btn" (click)="toggleAddForm()">
+      <span>{{ showAddForm ? '−' : '+' }}</span> 
+      {{ showAddForm ? 'Hide Form' : 'Add Article' }}
+    </button>
+  </div>
+  
+  <!-- Add Article Form -->
+  <app-article-form-component
+    *ngIf="showAddForm"
+    [article]="null"
+    (save)="saveNewArticle($event)"
+    (cancel)="cancelAddForm()"
+  ></app-article-form-component>
+  
+  <div class="loading-overlay" *ngIf="loading">
+    <div class="loading-spinner"></div>
+  </div>
+  
+  <div *ngIf="articles.length > 0 " class="articles-list">
+    <app-article-admin 
+      *ngFor="let article of articles"
+      [article]="article"
+      (onEdit)="handleEdit($event)"
+      (onDelete)="handleDelete($event)"
+    ></app-article-admin>
+  </div>
+</div>

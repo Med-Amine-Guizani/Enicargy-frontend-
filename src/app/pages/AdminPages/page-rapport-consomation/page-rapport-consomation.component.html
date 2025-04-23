@@ -1,0 +1,29 @@
+<app-rapport-form (rapportAdded)="handleSubmit($event)"></app-rapport-form>">
+
+<div class="year-line">
+    <h2 >2025</h2>
+    <hr>
+</div>
+<app-rapports-list
+    [rapports]="rapports"
+    [year]="2025"
+    (onDelete)="handleDelete($event)"
+></app-rapports-list>
+<div class="year-line">
+    <h2 >2024</h2>
+    <hr>
+</div>
+<app-rapports-list
+    [rapports]="rapports"
+    [year]="2024"
+    (onDelete)="handleDelete($event)"
+></app-rapports-list>
+<div class="year-line">
+    <h2 >2023</h2>
+    <hr>
+</div>
+<app-rapports-list
+    [rapports]="rapports"
+    [year]="2023"
+    (onDelete)="handleDelete($event)"
+></app-rapports-list>

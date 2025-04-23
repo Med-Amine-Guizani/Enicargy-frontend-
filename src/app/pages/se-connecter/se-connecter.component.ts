@@ -1,38 +1,57 @@
 import { Component } from '@angular/core';
-import{  FormBuilder, FormGroup, Validators ,ReactiveFormsModule } from '@angular/forms';
+import{  FormBuilder, FormGroup, Validators ,ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service'
+import { CommonModule } from '@angular/common';
+import { OnInit } from '@angular/core';
+import { Token } from '@angular/compiler';
+import { TokenService } from '../../services/TokenService';
+
+
+
 @Component({
   selector: 'app-se-connecter',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,FormsModule,CommonModule],
   templateUrl: './se-connecter.component.html',
   styleUrl: './se-connecter.component.css'
 })
-export class SeConnecterComponent {
+export class SeConnecterComponent implements OnInit {
   result = "";
-  registerForm: FormGroup;
+  registerForm: FormGroup= new FormGroup({});
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder , private authService: AuthService , private tokenService:TokenService) {
+  }
+
+
+
+  ngOnInit(): void {
+    this.tokenService.clearToken();
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      terms: [false, Validators.requiredTrue]
+      password: ['', Validators.required],
+      terms: [false]
     });
   }
 
-  onSubmit() {
+
+  submit() {
     if (this.registerForm.valid) {
-      console.log("connexion soumis avec succès !");
-      this.result = "connexion soumis avec succès !"; // Affichez ce message dans le template si nécessaire
+      this.authService.login(this.registerForm.value.email, this.registerForm.value.password).subscribe(
+        response => {
+          console.log("connexion valide", response);
+          this.result="Connexion réussie"
+        }
+      );
     } else {
       console.log("connexion invalide");
       this.result="Erreur"
     }
   }
-  inscrireAvecGoogle(){
 
-  }
-  inscrireAvecApple(){
-    
+  
+  goToRegister(){
+    this.authService.goToRegister();
+
   }
 
 }

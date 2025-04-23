@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
-import { Reclamation } from '../../../reclamation';
+import { Reclamation } from '../../../models/reclamation';
 import { ReclamationsService } from '../../../services/reclamations.service';
 import { StatutReclamation } from '../../../pages/add-claim/add-claim.component';
 
@@ -99,7 +99,6 @@ export class StatisticsComponent implements OnInit {
             labels: {
               boxWidth: 12,
               padding: 16,
-              boxPadding: 14
             }
           },
           tooltip: {

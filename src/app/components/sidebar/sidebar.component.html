@@ -1,0 +1,10 @@
+<section class="dashboard">
+  <i
+    *ngFor="let option of sidebarOptions"
+    [class.selected]="selected === option.path"
+    (click)="select(option.path)"
+  >
+    <img [src]="option.icon" alt="icon">
+    {{ option.label }}
+  </i>
+</section>
