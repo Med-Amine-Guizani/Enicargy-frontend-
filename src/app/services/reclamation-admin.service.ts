@@ -28,6 +28,6 @@ export class ReclamationAdminService {
 
   //this will be used one the update state button is clicked in the reclamation component
   updateReclamationState(id: number, newState: Reclamation['status']): Observable<Reclamation> {
-    return this.http.put<Reclamation>(`${this.reclamationApiUrl}/${id}/state`, { state: newState });
+    return this.http.patch<Reclamation>(`${this.reclamationApiUrl}/status/${id}`, { state: newState });
   }
 }

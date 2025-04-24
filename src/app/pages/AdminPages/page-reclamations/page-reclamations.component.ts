@@ -4,6 +4,7 @@ import { FooterComponent } from '../../../components/footer/footer.component';
 import { HeaderComponent } from '../../../components/header/header.component';
 import { Reclamation } from '../../../models/reclamationvAdmin';
 import { ReclamationAdminService } from '../../../services/reclamation-admin.service';
+import { EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-page-reclamations',
@@ -28,9 +29,11 @@ export class PageReclamationsComponent {
     this.isLoading = true;
     this.reclamationService.getAllReclamations().subscribe({
       next: (data) => {
+        console.log(data); // Log the data to see its structure
         this.reclamations = data;
-        this.reclamationsEnAttente = data.filter(reclamation => reclamation.status === 'En attente');
-        this.reclamationsEnCours = data.filter(reclamation => reclamation.status === 'En cours');
+        console.log
+        this.reclamationsEnAttente = data.filter(reclamation => reclamation.status === 'En_Attente');
+        this.reclamationsEnCours = data.filter(reclamation => reclamation.status === 'En_cours');
         this.isLoading = false;
         this.errorMessage = '';  // Clear any error message
       },

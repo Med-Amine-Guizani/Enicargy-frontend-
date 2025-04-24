@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Reclamation } from './../models/reclamation';
-import { StatutReclamation } from '../pages/add-claim/add-claim.component';
+import { StatutReclamation } from '../models/reclamationstatus';
 import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'

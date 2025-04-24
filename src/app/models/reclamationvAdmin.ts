@@ -6,6 +6,6 @@ export interface Reclamation {
   date: string;
   local: string;
   salle: string;
-  status: 'En attente' | 'En cours' | 'Terminer';
+  status: 'En_Attente' | 'En_cours' | 'Terminer';
   photoUrl?: string;
 }

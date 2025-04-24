@@ -4,12 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Reclamation, RessourceType } from '../../models/reclamation';
-export enum StatutReclamation {
-  TERMINEE = 'Terminée',
-  EN_COURS = 'En cours',
-  REFUSEE = 'Refusée',
-  EN_ATTENTE = 'En attente'
-}
+import { StatutReclamation } from '../../models/reclamationstatus';
 @Component({
   selector: 'app-add-claim',
   standalone: true,

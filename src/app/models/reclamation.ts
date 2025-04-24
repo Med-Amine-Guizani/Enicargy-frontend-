@@ -1,4 +1,4 @@
-import { StatutReclamation } from "../pages/add-claim/add-claim.component";
+import { StatutReclamation } from "./reclamationstatus";
 
 export type RessourceType = 'Eau' | 'Électricité' | 'Logistique' | null;
 

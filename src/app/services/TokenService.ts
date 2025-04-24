@@ -21,17 +21,19 @@ export class TokenService {
   private readonly TOKEN_KEY = 'token';
 
   setToken(token: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
-    this.updateUserData();
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('token', token);
+    }
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    return typeof window !== 'undefined' ? localStorage.getItem('token') : null;
   }
 
   clearToken(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    this.clearUser();
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('token');
+    }
   }
 
   private updateUserData(): void {
