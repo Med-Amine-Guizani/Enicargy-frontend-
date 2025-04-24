@@ -8,8 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { TokenService } from '../../services/TokenService';
 export enum StatutReclamation {
   TERMINEE = 'Terminer',
-  EN_COURS = 'En cours',
-  EN_ATTENTE = 'En attente'
+  EN_COURS = 'En_cours',
+  EN_ATTENTE = 'En_Attente'
 }
 
 
@@ -28,7 +28,7 @@ export class AddClaimComponent {
     date: '',
     local: '',
     salle: '',
-    status: 'En attente',
+    status: 'En_Attente',
     photoUrl: ''
   };
 
@@ -73,7 +73,7 @@ export class AddClaimComponent {
           date: '',
           local: '',
           salle: '',
-          status: 'En attente',
+          status: 'En_Attente',
           photoUrl: ''
         };
         this.selectedFile = null;

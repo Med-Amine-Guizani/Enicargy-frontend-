@@ -18,9 +18,9 @@ export class ReclamationComponent  {
 
   get actionButtonLabel(): string | null {
     switch (this.reclamation?.status) {
-      case 'En attente':
+      case 'En_Attente':
         return 'Résoudre';
-      case 'En cours':
+      case 'En_cours':
         return 'Résolu';
       default:
         return null;
@@ -30,9 +30,9 @@ export class ReclamationComponent  {
   changeState(): void {
     let newState: Reclamation['status'] | null = null;
 
-    if (this.reclamation?.status === 'En attente') {
-      newState = 'En cours';
-    } else if (this.reclamation?.status === 'En cours') {
+    if (this.reclamation?.status === 'En_Attente') {
+      newState = 'En_cours';
+    } else if (this.reclamation?.status === 'En_cours') {
       newState = 'Terminer';
     }
 
@@ -54,9 +54,9 @@ export class ReclamationComponent  {
 
   get stateClass(): string {
     switch (this.reclamation?.status) {
-      case 'En attente':
+      case 'En_Attente':
         return 'attente';
-      case 'En cours':
+      case 'En_cours':
         return 'en-cours';
       case 'Terminer':
         return 'termine';

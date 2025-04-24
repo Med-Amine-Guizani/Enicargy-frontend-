@@ -13,6 +13,6 @@
   <img [src]="reclamation?.photoUrl"  class="photo" (load)="onLoad()" (error)="onError()"  />
 
   <button *ngIf="reclamation?.status !== 'Terminer'" (click)="changeState()" class="action-button">
-    {{ reclamation?.status === 'En attente' ? 'Résoudre' : 'Résolu' }}
+    {{ reclamation?.status === 'En_Attente' ? 'Résoudre' : 'Résolu' }}
   </button>
 </div>

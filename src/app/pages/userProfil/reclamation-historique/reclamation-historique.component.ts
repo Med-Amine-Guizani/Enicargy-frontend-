@@ -7,8 +7,8 @@ import { TokenService } from '../../../services/TokenService';
 
 export enum StatutReclamation {
   TERMINEE = 'Terminer',
-  EN_COURS = 'En cours',
-  EN_ATTENTE = 'En attente'
+  EN_COURS = 'En_cours',
+  EN_ATTENTE = 'En_Attente'
 }
 
 @Component({
