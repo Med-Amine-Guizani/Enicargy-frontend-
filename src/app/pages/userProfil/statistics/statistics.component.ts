@@ -45,8 +45,7 @@ export class StatisticsComponent implements OnInit {
     const colorMap: Record<StatutReclamation, string> = {
       [StatutReclamation.TERMINEE]: '#9886FF',
       [StatutReclamation.EN_COURS]: '#1BF3EF',
-      [StatutReclamation.EN_ATTENTE]: '#FD95A2',
-      [StatutReclamation.REFUSEE]: '#A9C1FD'
+      [StatutReclamation.EN_ATTENTE]: '#FD95A2'
     };
 
     reclamations.forEach(rec => {

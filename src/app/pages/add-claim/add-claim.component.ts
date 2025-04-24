@@ -5,10 +5,10 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Reclamation } from '../../models/reclamationvAdmin';
 import { HttpClient } from '@angular/common/http';
+import { TokenService } from '../../services/TokenService';
 export enum StatutReclamation {
-  TERMINEE = 'Terminée',
+  TERMINEE = 'Terminer',
   EN_COURS = 'En cours',
-  REFUSEE = 'Refusée',
   EN_ATTENTE = 'En attente'
 }
 
@@ -37,7 +37,8 @@ export class AddClaimComponent {
 
   constructor(
     public _claims: ReclamationsService,
-    private http: HttpClient
+    private http: HttpClient,
+    public tokenService: TokenService
   ) {}
 
   // Méthode pour gérer la sélection d'un fichier
@@ -56,7 +57,7 @@ export class AddClaimComponent {
       local: this.claim.local,
       salle: this.claim.salle,
       status: this.claim.status,
-      userid: 2 // ou récupérer dynamiquement via un service Auth
+      userid: this.tokenService.getUserId()
     };
 
     this._claims.addClaim(reclamationData).subscribe({
