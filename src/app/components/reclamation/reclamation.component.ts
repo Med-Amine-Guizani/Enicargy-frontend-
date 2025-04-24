@@ -10,17 +10,11 @@ import { Reclamation } from '../../models/reclamationvAdmin';
   templateUrl: './reclamation.component.html',
   styleUrls: ['./reclamation.component.css']
 })
-export class ReclamationComponent implements OnInit {
+export class ReclamationComponent  {
   @Input() reclamation: Reclamation | null = null;
   imageLoading = true;
 
   constructor(private reclamationService: ReclamationAdminService) {}
-
-  ngOnInit(): void {
-    if (this.reclamation?.id) {
-      this.reclamation.photoUrl = this.reclamationService.getImageUrl(this.reclamation.id);
-    }
-  }
 
   get actionButtonLabel(): string | null {
     switch (this.reclamation?.status) {

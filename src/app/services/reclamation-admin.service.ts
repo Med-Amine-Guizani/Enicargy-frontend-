@@ -9,8 +9,7 @@ import { Reclamation } from '../models/reclamationvAdmin';
 })
 export class ReclamationAdminService {
 
-  private reclamationApiUrl = 'http://localhost:9090/api/reclamations';
-  private imageApiUrl = 'http://localhost:9090/api/images';
+  private reclamationApiUrl = 'http://localhost:9090/api/v1/reclamations';
 
   constructor(private http: HttpClient) {}
 
@@ -19,18 +18,8 @@ export class ReclamationAdminService {
     return this.http.get<Reclamation[]>(this.reclamationApiUrl);
   }
 
-  //this will be used in the add reclamation for user page ( user Pages )
-  uploadImage(file: File , id : string): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('id', id);
-    return this.http.post(`${this.imageApiUrl}/upload`, formData);
-  }
 
-  // this will be used to fetch an image by url stored in a data base for a reclamation
-  getImageUrl(id: Number): string {
-    return `${this.imageApiUrl}/${id}`;
-  }
+
 
   // this will be used to fetch all reclamations for the user page ( user Pages )
   addReclamation(reclamation: Reclamation): Observable<Reclamation> {
