@@ -17,8 +17,7 @@
     <!-- Partie droite (formulaire) -->
     <section class="form-section">
       <input [(ngModel)]="claim.location" type="text" placeholder="Principale/Annexe" />
-  
-      <div class="toggle-group">
+   <div class="toggle-group">
         <label *ngFor="let res of ressources" [class.selected]="claim.ressource === res">
           <input
             type="radio"
@@ -29,6 +28,7 @@
           {{ res }}
         </label>
       </div>
+      
   
       <input [(ngModel)]="claim.probleme" type="text" placeholder="Problème" />
       <textarea [(ngModel)]="claim.description" placeholder="Description"></textarea>

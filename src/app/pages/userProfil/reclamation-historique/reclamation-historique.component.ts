@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReclamationsService } from '../../../services/reclamations.service';
@@ -18,19 +18,24 @@ export enum StatutReclamation {
   templateUrl: './reclamation-historique.component.html',
   styleUrl: './reclamation-historique.component.css'
 })
-export class ReclamationHistoriqueComponent {
+export class ReclamationHistoriqueComponent implements OnInit{
   StatutReclamation = StatutReclamation;
 
-  // Définition de claim avec l'interface
-  claim: Reclamation = {
-    location: "",
-    ressource: null,
-    probleme: "",
-    description: "",
-    dateClaim: new Date(),
-    statut: StatutReclamation.EN_ATTENTE,
-    photo: null
-  };
+  claims: Reclamation[] = [];
+  userId: number = 2; // à remplacer dynamiquement
 
   constructor(public _claims: ReclamationsService) {}
+
+  ngOnInit(): void {
+    this.loadUserClaims();
+  }
+
+  loadUserClaims(): void {
+    this._claims.getClaimsByUser(this.userId).subscribe((data: Reclamation[]) => {
+      console.log('Réclamations récupérées :', data); // ← pour vérifier dans la console
+      this.claims = data;
+    });
+  }
+
+  
 }
