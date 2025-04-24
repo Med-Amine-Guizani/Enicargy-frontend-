@@ -12,7 +12,7 @@
       <h2>Reclamation En Attente</h2>
     </div>
     <div *ngFor="let reclamation of reclamationsEnAttente">
-      <app-reclamation [reclamation]="reclamation"></app-reclamation>
+      <app-reclamation (statusAdvanced)="loadReclamations()" [reclamation]="reclamation"></app-reclamation>
     </div>
   </section>
 
@@ -23,7 +23,7 @@
       <h2>Reclamation En Cours</h2>
     </div>
     <div *ngFor="let reclamation of reclamationsEnCours">
-      <app-reclamation [reclamation]="reclamation"></app-reclamation>
+      <app-reclamation (statusAdvanced)="loadReclamations()"  [reclamation]="reclamation"></app-reclamation>
     </div>
   </section>
 
