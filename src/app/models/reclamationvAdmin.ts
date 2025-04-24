@@ -7,5 +7,5 @@ export interface Reclamation {
   local: string;
   salle: string;
   status: 'En_Attente' | 'En_cours' | 'Terminer';
-  photoUrl?: string;
+  photourl?: string;
 }

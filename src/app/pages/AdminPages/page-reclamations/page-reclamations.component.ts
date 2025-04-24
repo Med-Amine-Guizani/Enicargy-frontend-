@@ -33,6 +33,7 @@ export class PageReclamationsComponent {
         this.reclamationsEnCours = data.filter(reclamation => reclamation.status === 'En_cours');
         this.isLoading = false;
         this.errorMessage = '';  // Clear any error message
+        console.log('Reclamations loaded:', this.reclamations);
       },
       error: (error) => {
         this.errorMessage = 'Failed to load reclamations, please try again later.';

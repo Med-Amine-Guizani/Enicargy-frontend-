@@ -14,6 +14,11 @@ import { EventEmitter, Output } from '@angular/core';
 export class ReclamationComponent  {
   @Input() reclamation: Reclamation | null = null;
   @Output() statusAdvanced = new EventEmitter<Reclamation>();
+  get photoUrl(): string {
+    return this.reclamation?.photourl
+      ? 'http://localhost:9090/uploads/' + this.reclamation.photourl
+      : 'assets/images/placeholder.jpg';
+  }
   imageLoading = true;
 
   constructor(private reclamationService: ReclamationAdminService) {}
@@ -62,14 +67,5 @@ export class ReclamationComponent  {
     }
   }
 
-  onLoad(): void {
-    this.imageLoading = false;
-  }
 
-  onError(): void {
-    this.imageLoading = false;
-    if (this.reclamation) {
-      this.reclamation.photoUrl = 'assets/images/placeholder.jpg';
-    }
-  }
 }
