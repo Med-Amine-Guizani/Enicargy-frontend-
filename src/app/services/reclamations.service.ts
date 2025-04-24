@@ -33,4 +33,9 @@ export class ReclamationsService {
     return this.http.post(`http://localhost:9090/api/v1/photo/${id}`, photoData);
   }
 
+  getStatusCountsByUser(userId: number |null) {
+    return this.http.get(`http://localhost:9090/api/v1/reclamation/stats/${userId}`);
+  }
+  
+
 }

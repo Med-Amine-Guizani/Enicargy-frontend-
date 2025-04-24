@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReclamationsService } from '../../../services/reclamations.service';
-import { StatutReclamation } from '../reclamation-historique/reclamation-historique.component';
+import { TokenService } from '../../../services/TokenService';
 
 @Component({
   selector: 'app-score',
@@ -11,23 +11,32 @@ import { StatutReclamation } from '../reclamation-historique/reclamation-histori
   styleUrl: './score.component.css'
 })
 export class ScoreComponent implements OnInit {
-  @Input() points: number[] = [10,20,30,40,50,60,70,80,90,100]; // Points de progression
-  score: number = 0; // Calculé automatiquement
+  @Input() points: number[] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]; // (peut être utilisé pour un affichage visuel)
+  score: number = 0;
+  userId: number = -1;
 
-  constructor(private reclamationsService: ReclamationsService) {}
+  enAttente: number = 0;
+  enCours: number = 0;
+  terminee: number = 0;
+
+  constructor(
+    private reclamationsService: ReclamationsService,
+    public tokenService: TokenService
+  ) {}
 
   ngOnInit(): void {
-    this.getScore();
-  }
+    const id = this.tokenService.getUserId();
+    if (id !== null) {
+      this.userId = id;
 
-  getScore(): void {
-    this.reclamationsService.getClaims().subscribe(reclamations => {
-      // On filtre les réclamations terminées
-      const finished = reclamations.filter(
-        (r: any) => r.statut === StatutReclamation.TERMINEE
-      );
-      this.score = finished.length * 10;
-      this.points.push(this.score)// Exemple: 10 pts par réclamation terminée
-    });
+      this.reclamationsService.getStatusCountsByUser(this.userId).subscribe((statusCounts: any) => {
+        this.enAttente = statusCounts.en_attente;
+        this.enCours = statusCounts.en_cours;
+        this.terminee = statusCounts.terminer;
+
+        // Calcul du score basé sur les réclamations terminées
+        this.score = this.terminee * 10;
+      });
+    }
   }
 }
