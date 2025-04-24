@@ -69,9 +69,9 @@ export class TokenService {
     }
   }
   
-  getUserId(): string | null {
+  getUserId(): number | null {
     const decoded = this.getDecodedToken();
-    return decoded?.sub ?? null;
+    return decoded?.id ?? null;
   }
 
   public isAdmin(): boolean {

@@ -3,42 +3,52 @@
     <!-- Partie gauche -->
     <div class="left-panel">
       <p class="thank-you">
-        <strong>Toute la Famille <br />
-        EnicarGy vous <br />
-        remercie pour <br />
-        votre <br />
-        Participation</strong>
-        </p>
+        <strong>
+          Toute la Famille <br />
+          EnicarGy vous <br />
+          remercie pour <br />
+          votre <br />
+          Participation
+        </strong>
+      </p>
     </div>
-  
+
     <!-- Ligne de séparation -->
     <div class="divider"></div>
-  
+
     <!-- Partie droite (formulaire) -->
     <section class="form-section">
-      <input [(ngModel)]="claim.location" type="text" placeholder="Principale/Annexe" />
-   <div class="toggle-group">
-        <label *ngFor="let res of ressources" [class.selected]="claim.ressource === res">
-          <input
-            type="radio"
-            name="ressource"
-            [value]="res"
-            [(ngModel)]="claim.ressource"
-          />
-          {{ res }}
-        </label>
-      </div>
-      
-  
-      <input [(ngModel)]="claim.probleme" type="text" placeholder="Problème" />
-      <textarea [(ngModel)]="claim.description" placeholder="Description"></textarea>
+      <!-- Champ pour le local -->
+      <input
+        [(ngModel)]="claim.local"
+        type="text"
+        placeholder="Principale/Annexe"
+      />
+
+      <!-- Champ pour la salle -->
+      <input
+        [(ngModel)]="claim.salle"
+        type="text"
+        placeholder="Salle (optionnelle)"
+      />
+
+      <!-- Champ pour le titre du problème -->
+      <input [(ngModel)]="claim.titre" type="text" placeholder="Problème" />
+
+      <!-- Champ pour la description -->
+      <textarea
+        [(ngModel)]="claim.description"
+        placeholder="Description"
+      ></textarea>
+
+      <!-- Champ pour la photo -->
       <input type="file" (change)="onFileSelected($event)" />
-  
+
+      <!-- Bouton d'envoi -->
       <button (click)="ajouterReclamation()">Envoyer Réclamation</button>
     </section>
   </div>
-  
+
   <!-- Lien vers interface utilisateur -->
   <li routerLink="/userInterface" routerLinkActive="active">Visiter compte</li>
-  
 </body>

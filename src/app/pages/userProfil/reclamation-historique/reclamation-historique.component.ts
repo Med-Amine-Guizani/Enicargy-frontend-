@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReclamationsService } from '../../../services/reclamations.service';
-import { Reclamation } from '../../../models/reclamation';
+import { Reclamation } from '../../../models/reclamationvAdmin';
+import { TokenService } from '../../../services/TokenService';
 
 export enum StatutReclamation {
-  TERMINEE = 'Terminée',
+  TERMINEE = 'Terminer',
   EN_COURS = 'En cours',
-  REFUSEE = 'Refusée',
   EN_ATTENTE = 'En attente'
 }
 
@@ -16,26 +16,37 @@ export enum StatutReclamation {
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './reclamation-historique.component.html',
-  styleUrl: './reclamation-historique.component.css'
+  styleUrls: ['./reclamation-historique.component.css'] // <-- corrigé ici
 })
-export class ReclamationHistoriqueComponent implements OnInit{
+export class ReclamationHistoriqueComponent implements OnInit {
   StatutReclamation = StatutReclamation;
 
   claims: Reclamation[] = [];
-  userId: number = 2; // à remplacer dynamiquement
+  userId: number = -1;
 
-  constructor(public _claims: ReclamationsService) {}
+  constructor(
+    public _claims: ReclamationsService,
+    public tokenService: TokenService
+  ) {}
 
   ngOnInit(): void {
-    this.loadUserClaims();
+    const id = this.tokenService.getUserId();
+    if (id !== null && !isNaN(id)) {
+      this.userId = id;
+      this.loadUserClaims();
+    } else {
+      console.warn("Aucun ID utilisateur valide trouvé !");
+    }
   }
 
   loadUserClaims(): void {
-    this._claims.getClaimsByUser(this.userId).subscribe((data: Reclamation[]) => {
-      console.log('Réclamations récupérées :', data); // ← pour vérifier dans la console
-      this.claims = data;
+    this._claims.getClaimsByUser(this.userId).subscribe({
+      next: (data: Reclamation[]) => {
+        this.claims = data;
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des réclamations :', err);
+      }
     });
   }
-
-  
 }

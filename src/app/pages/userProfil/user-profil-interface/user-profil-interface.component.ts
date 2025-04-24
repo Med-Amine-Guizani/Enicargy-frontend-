@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuComponent } from '../menu/menu.component';
 import { ReclamationHistoriqueComponent } from '../reclamation-historique/reclamation-historique.component';
 import { StatisticsComponent } from '../statistics/statistics.component';
-import { Reclamation } from '../../../models/reclamation';
+import { Reclamation } from '../../../models/reclamationvAdmin';
 import { ReclamationsService } from '../../../services/reclamations.service';
 import { StatutReclamation } from '../reclamation-historique/reclamation-historique.component';
 import { ScoreComponent } from '../score/score.component';

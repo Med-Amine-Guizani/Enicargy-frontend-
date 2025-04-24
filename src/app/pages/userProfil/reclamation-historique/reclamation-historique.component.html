@@ -1,28 +1,26 @@
 <section>
-    <table>
-      <thead>
-        <tr>
-          <th>Réclamation</th>
-          <th>Date et heure de réclamation</th>
-          <th>Statut</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let claim of claims">
-          <td>{{ claim.probleme }}</td>
-          <td>{{ claim.dateClaim | date: 'dd/MM/yyyy à HH:mm' }}</td>
-          <td [ngClass]="{
-                'terminee': claim.statut === StatutReclamation.TERMINEE,
-                'en-attente': claim.statut === StatutReclamation.EN_ATTENTE,
-                'refusee': claim.statut === StatutReclamation.REFUSEE,
-                'en-cours': claim.statut === StatutReclamation.EN_COURS
-              }">
-            {{ claim.statut }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <p class="voir-plus">voir plus...</p>
-  </section>
-  
+  <table>
+    <thead>
+      <tr>
+        <th>Réclamation</th>
+        <th>Date et heure de réclamation</th>
+        <th>Statut</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let claim of claims">
+        <td>{{ claim.titre }}</td>
+        <td>{{ claim.date | date: 'dd/MM/yyyy à HH:mm' }}</td>
+        <td [ngClass]="{
+              'terminee': claim.status === StatutReclamation.TERMINEE,
+              'en-attente': claim.status === StatutReclamation.EN_ATTENTE,
+              'en-cours': claim.status === StatutReclamation.EN_COURS
+            }">
+          {{ claim.status }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="voir-plus">Voir plus...</p>
+</section>

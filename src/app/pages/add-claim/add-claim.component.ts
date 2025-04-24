@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ReclamationsService } from '../../services/reclamations.service';
-import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Reclamation,RessourceType } from '../../models/reclamation';
+import { Reclamation } from '../../models/reclamationvAdmin';
 import { HttpClient } from '@angular/common/http';
 export enum StatutReclamation {
   TERMINEE = 'Terminée',
@@ -11,6 +11,8 @@ export enum StatutReclamation {
   REFUSEE = 'Refusée',
   EN_ATTENTE = 'En attente'
 }
+
+
 @Component({
   selector: 'app-add-claim',
   standalone: true,
@@ -19,64 +21,64 @@ export enum StatutReclamation {
   styleUrls: ['./add-claim.component.css']
 })
 export class AddClaimComponent {
-  StatutReclamation = StatutReclamation;
-
-  ressources: RessourceType[] = ['Eau', 'Électricité', 'Logistique'];
-
+  // Objet pour contenir la nouvelle réclamation
   claim: Reclamation = {
-    location: "",
-    probleme: "",
-    ressource: null,
-    description: "",
-    dateClaim: new Date(),
-    statut: StatutReclamation.EN_ATTENTE,
-    photo: null
+    titre: '',
+    description: '',
+    date: '',
+    local: '',
+    salle: '',
+    status: 'En attente',
+    photoUrl: ''
   };
+
+  // Fichier sélectionné
+  selectedFile: File | null = null;
 
   constructor(
     public _claims: ReclamationsService,
-    private http: HttpClient      /* nécessaire pour l’upload direct si utilisé ici*/,
-    
+    private http: HttpClient
   ) {}
 
-  // Méthode pour gérer la sélection du fichier
+  // Méthode pour gérer la sélection d'un fichier
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.claim.photo = input.files[0];
+      this.selectedFile = input.files[0];
     }
   }
 
-  // Méthode pour ajouter une réclamation avec un JSON et éventuellement une photo
+  // Envoie de la réclamation au serveur
   ajouterReclamation() {
     const reclamationData = {
-      titre: this.claim.probleme,
+      titre: this.claim.titre,
       description: this.claim.description,
-      local: this.claim.location,
-      salle: 'Aucune',
-      userid:2
+      local: this.claim.local,
+      salle: this.claim.salle,
+      status: this.claim.status,
+      userid: 2 // ou récupérer dynamiquement via un service Auth
     };
 
     this._claims.addClaim(reclamationData).subscribe({
       next: (res) => {
-        // Si une photo a été sélectionnée, on l'envoie ensuite
-        if (this.claim.photo) {
-          this._claims.addPhoto(this.claim.photo, res.id).subscribe();
+        if (this.selectedFile) {
+          this._claims.addPhoto(this.selectedFile, res.id).subscribe();
         }
 
-        // Réinitialisation du formulaire après ajout
+        // Réinitialisation du formulaire
         this.claim = {
-          location: "",
-          probleme: "",
-          ressource:null,
-          description: "",
-          dateClaim: new Date(),
-          statut: StatutReclamation.EN_ATTENTE,
-          photo: null
+          titre: '',
+          description: '',
+          date: '',
+          local: '',
+          salle: '',
+          status: 'En attente',
+          photoUrl: ''
         };
+        this.selectedFile = null;
       },
       error: (err) => {
-        console.error('Erreur lors de l’envoi :', err);
+        console.error('Erreur lors de l’ajout de la réclamation :', err);
       }
     });
   }

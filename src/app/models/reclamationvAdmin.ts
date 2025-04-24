@@ -1,7 +1,7 @@
 
 export interface Reclamation {
   id?: number;
-  title: string;
+  titre: string;
   description: string;
   date: string;
   local: string;

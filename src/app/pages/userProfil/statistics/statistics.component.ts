@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
-import { Reclamation } from '../../../models/reclamation';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
+import { Reclamation } from '../../../models/reclamationvAdmin';
 import { ReclamationsService } from '../../../services/reclamations.service';
 import { StatutReclamation } from '../../../pages/add-claim/add-claim.component';
 
@@ -22,7 +22,6 @@ export class StatisticsComponent implements OnInit {
   ngOnInit(): void {
     this.reclamationService.getClaims().subscribe(reclamations => {
       if (reclamations.length === 0) {
-        // Créer une fausse donnée par défaut
         const chartData = {
           labels: ['Aucune réclamation'],
           values: [1],
@@ -35,7 +34,6 @@ export class StatisticsComponent implements OnInit {
       }
     });
   }
-  
 
   processReclamations(reclamations: Reclamation[]): {
     labels: string[],
@@ -44,7 +42,6 @@ export class StatisticsComponent implements OnInit {
   } {
     const countMap = new Map<StatutReclamation, number>();
 
-    // Couleurs personnalisées par statut
     const colorMap: Record<StatutReclamation, string> = {
       [StatutReclamation.TERMINEE]: '#9886FF',
       [StatutReclamation.EN_COURS]: '#1BF3EF',
@@ -52,9 +49,9 @@ export class StatisticsComponent implements OnInit {
       [StatutReclamation.REFUSEE]: '#A9C1FD'
     };
 
-    // Compter les réclamations par statut
     reclamations.forEach(rec => {
-      countMap.set(rec.statut, (countMap.get(rec.statut) || 0) + 1);
+      const status = rec.status as StatutReclamation;
+      countMap.set(status, (countMap.get(status) || 0) + 1);
     });
 
     const labels = Array.from(countMap.keys()).map(key => key);
@@ -65,7 +62,7 @@ export class StatisticsComponent implements OnInit {
   }
 
   initReclamationChart(data: { labels: string[], values: number[], colors: string[] }): void {
-    if(typeof window==='undefined') return;
+    if (typeof window === 'undefined') return;
     const canvas = document.getElementById('reclamationChart') as HTMLCanvasElement | null;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -87,7 +84,7 @@ export class StatisticsComponent implements OnInit {
         plugins: {
           title: {
             display: true,
-            text: 'Reclamation par statut',
+            text: 'Réclamation par statut',
             font: {
               size: 14,
               weight: 'bold'
@@ -103,12 +100,12 @@ export class StatisticsComponent implements OnInit {
           },
           tooltip: {
             callbacks: {
-              label: function(context) {
+              label: function (context) {
                 const total = context.dataset.data
                   .filter((item): item is number => typeof item === 'number')
                   .reduce((a, b) => a + b, 0);
                 const value = context.raw as number;
-                const percentage = Math.round(((value as number) / (Number(total) || 1)) * 100);
+                const percentage = Math.round((value / (total || 1)) * 100);
                 return `${context.label}: ${percentage}%`;
               }
             }
