@@ -16,7 +16,7 @@ export enum StatutReclamation {
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './reclamation-historique.component.html',
-  styleUrls: ['./reclamation-historique.component.css'] // <-- corrigé ici
+  styleUrls: ['./reclamation-historique.component.css'] 
 })
 export class ReclamationHistoriqueComponent implements OnInit {
   StatutReclamation = StatutReclamation;
