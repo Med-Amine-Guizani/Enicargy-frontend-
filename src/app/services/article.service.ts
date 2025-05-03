@@ -2,48 +2,29 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { Article } from '../models/article';
 import { delay, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticleService {
-  // Mock data - replace with actual API calls later
   private articles: Article[] = [
-    {
-      id: 1,
-      title: 'Energy Management Strategies',
-      text: 'Implementing smart grid technologies to optimize power distribution across campus facilities hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.'
-    },
-    {
-      id: 2,
-      title: 'Water Conservation Program',
-      text: 'New rainwater harvesting system reduces municipal water usage by 40% in pilot buildings.'
-    },
-    {
-      id: 3,
-      title: 'Solar Power Initiative',
-      text: 'Installation of photovoltaic panels projected to cover 25% of campus energy needs by 2025.'
-    },
-    {
-      id: 4,
-      title: 'IoT Monitoring Systems',
-      text: 'Real-time consumption tracking through 500+ smart sensors deployed across university buildings.'
-    },
-    {
-      id: 5,
-      title: 'Sustainable Campus Goals',
-      text: 'University aims to achieve net-zero water and energy consumption by 2030 through integrated management.'
-    }
+    { id: 1, title: 'Article 1', body: 'Content of article 1' },
+    { id: 2, title: 'Article 2', body: 'Content of article 2' },
+    { id: 3, title: 'Article 3', body: 'Content of article 3' }
   ];
+  
 
-  constructor() { }
+  private apiUrl = 'http://localhost:9090/api/v1/articles'; 
+
+  constructor(private http : HttpClient) {}
 
   getArticles(): Observable<Article[]> {
-    // Replace with actual API call: return this.http.get<Article[]>('api/articles');
-    return of(this.articles).pipe(
-      delay(300) // Simulate network delay
-    );
+    return this.http.get<Article[]>(this.apiUrl);
   }
+
+
 
   getArticleById(id: number): Observable<Article> {
     // Replace with actual API call: return this.http.get<Article>(`api/articles/${id}`);
@@ -57,43 +38,42 @@ export class ArticleService {
   }
 
   createArticle(article: Article): Observable<Article> {
-    // Replace with actual API call: return this.http.post<Article>('api/articles', article);
-    // For now, simulate API response
-    return of({
-      ...article,
-      id: Math.floor(Math.random() * 1000) + 100 // Simulate server-assigned ID
-    }).pipe(
-      delay(800), // Simulate network delay
-      tap(newArticle => console.log('Article created:', newArticle))
+    return this.http.post<Article>(this.apiUrl, article).pipe(
+      tap((createdArticle) => {
+        this.articles.push(createdArticle);
+      }),
+      catchError((error) => {
+        console.error('Failed to create article', error);
+        return throwError(() => new Error('Failed to create article'));
+      })
     );
   }
   
 
   updateArticle(article: Article): Observable<Article> {
-    // Replace with actual API call: return this.http.put<Article>(`api/articles/${article.id}`, article);
-    const index = this.articles.findIndex(a => a.id === article.id);
-    if (index === -1) {
-      return throwError(() => new Error(`Article with id ${article.id} not found`));
-    }
-    
-    this.articles[index] = { ...article };
-    return of(article).pipe(
-      delay(500), // Simulate network delay
-      tap(() => console.log('Article updated:', article))
+    return this.http.patch<Article>(this.apiUrl, article).pipe(
+      tap((updatedArticle) => {
+        const index = this.articles.findIndex(a => a.id === updatedArticle.id);
+        if (index !== -1) {
+          this.articles[index] = updatedArticle; 
+        }
+      }),
+      catchError((error) => {
+        console.error('Failed to update article', error);
+        return throwError(() => new Error('Failed to update article'));
+      })
     );
   }
 
   deleteArticle(id: number): Observable<void> {
-    // Replace with actual API call: return this.http.delete<void>(`api/articles/${id}`);
-    const index = this.articles.findIndex(a => a.id === id);
-    if (index === -1) {
-      return throwError(() => new Error(`Article with id ${id} not found`));
-    }
-    
-    this.articles.splice(index, 1);
-    return of(undefined).pipe(
-      delay(500), // Simulate network delay
-      tap(() => console.log('Article deleted:', id))
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => {
+        this.articles = this.articles.filter(a => a.id !== id); // Remove from local array
+      }),
+      catchError((error) => {
+        console.error('Failed to delete article', error);
+        return throwError(() => new Error('Failed to delete article'));
+      })
     );
   }
 }

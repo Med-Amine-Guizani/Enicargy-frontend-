@@ -26,12 +26,16 @@ export class TokenService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('token');
+    }
+    return null;
   }
 
   clearToken(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    this.clearUser();
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('token');
+    }
   }
 
   private updateUserData(): void {

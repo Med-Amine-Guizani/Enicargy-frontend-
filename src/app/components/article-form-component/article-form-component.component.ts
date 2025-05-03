@@ -20,7 +20,7 @@ export class ArticleFormComponentComponent {
   formArticle: Article = {
     id: 0,
     title: '',
-    text: ''
+    body: ''
   };
 
   isNew = true;
@@ -34,7 +34,7 @@ export class ArticleFormComponentComponent {
       this.formArticle = {
         id: 0,  // Will be set by the backend
         title: '',
-        text: ''
+        body: ''
       };
       this.isNew = true;
     }
@@ -51,7 +51,7 @@ export class ArticleFormComponentComponent {
   }
 
   isValid(): boolean {
-    return !!this.formArticle.title?.trim() && !!this.formArticle.text?.trim();
+    return !!this.formArticle.title?.trim() && !!this.formArticle.body?.trim();
   }
 
 }

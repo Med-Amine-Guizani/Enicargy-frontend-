@@ -18,7 +18,7 @@ export class ArticleAdminComponent {
   @Output() onCancelEdit = new EventEmitter<void>();
   
   editMode = false;
-  editedArticle: Article = { id: 0, title: '', text: '' };
+  editedArticle: Article = { id: 0, title: '', body: '' };
   
   handleVoirPlus() {}
 
@@ -43,6 +43,6 @@ export class ArticleAdminComponent {
   }
   
   isValid(): boolean {
-    return !!this.editedArticle.title?.trim() && !!this.editedArticle.text?.trim();
+    return !!this.editedArticle.title?.trim() && !!this.editedArticle.body?.trim();
   }
 }

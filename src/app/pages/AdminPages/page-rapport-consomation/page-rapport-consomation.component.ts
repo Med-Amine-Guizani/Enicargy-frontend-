@@ -5,6 +5,7 @@ import { RapportsListComponent } from '../../../components/rapports-list/rapport
 import { RapportService } from '../../../services/rapport.service';
 import { CommonModule } from '@angular/common';
 import { RapportFormComponent } from '../../../components/rapport-form/rapport-form.component';
+import { RapportUploadPayload } from '../../../models/rapportuploadplayload';
 
 @Component({
   selector: 'app-page-rapport-consomation',
@@ -33,9 +34,14 @@ export class PageRapportConsomationComponent {
       });
     }
 
-    handleSubmit(rapport: Rapport): void {
-      this.RapportService.addReport(rapport).subscribe({
-        
+    handleSubmit(data : RapportUploadPayload): void {
+      this.RapportService.addReport(data).subscribe({
+        next: () => {
+          this.loadRapports();
+        },
+        error: (error) => {
+          console.error('Error adding article:', error);
+        }
       });
     }
     
