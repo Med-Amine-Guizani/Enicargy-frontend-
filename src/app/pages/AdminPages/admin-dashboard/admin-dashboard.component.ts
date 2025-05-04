@@ -207,7 +207,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
         labels: ['En attente', 'En cours', 'Terminée'],
         datasets: [{
           data: [data.enAttente, data.enCours, data.terminee],
-          backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe'],
+          backgroundColor: ['#ff6384', '#36a2eb', '#cc65fegi'],
           borderWidth: 1
         }]
       },
