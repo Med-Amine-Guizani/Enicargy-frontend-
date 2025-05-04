@@ -20,7 +20,8 @@ export class ArticleFormComponentComponent {
   formArticle: Article = {
     id: 0,
     title: '',
-    body: ''
+    body: '',
+    date:''
   };
 
   isNew = true;
@@ -34,7 +35,8 @@ export class ArticleFormComponentComponent {
       this.formArticle = {
         id: 0,  // Will be set by the backend
         title: '',
-        body: ''
+        body: '',
+        date:''
       };
       this.isNew = true;
     }

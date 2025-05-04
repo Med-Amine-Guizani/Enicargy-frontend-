@@ -1,11 +1,29 @@
-<div class="container">
-  <ng-container *ngFor="let rapport of rapports">
-    <app-rapport
-      *ngIf="getYear(rapport.date) === year"
-      [rapport]="rapport"
-      (onDelete)="handleDelete($event)"
-      >
-    </app-rapport>
-  </ng-container>
+<div class="rapports-container">
+  <button class="scroll-button left" 
+          (click)="scrollLeft()" 
+          [class.hidden]="isAtStart"
+          aria-label="Scroll left">
+    &lt;
+  </button>
+
+  <div class="rapports-scroll-wrapper" #scrollContainer>
+    <div class="rapports-scroll-content">
+      <ng-container *ngFor="let rapport of rapports">
+        <app-rapport
+          *ngIf="getYear(rapport.date) === year"
+          [rapport]="rapport"
+          (onDelete)="handleDelete($event)"
+          class="rapport-item">
+        </app-rapport>
+      </ng-container>
+    </div>
+  </div>
+
+  <button class="scroll-button right" 
+          (click)="scrollRight()" 
+          [class.hidden]="isAtEnd"
+          aria-label="Scroll right">
+    &gt;
+  </button>
 </div>
 

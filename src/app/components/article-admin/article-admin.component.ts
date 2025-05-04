@@ -18,7 +18,7 @@ export class ArticleAdminComponent {
   @Output() onCancelEdit = new EventEmitter<void>();
   
   editMode = false;
-  editedArticle: Article = { id: 0, title: '', body: '' };
+  editedArticle: Article = { id: 0, title: '', body: '', date: ''};
   
   handleVoirPlus() {}
 

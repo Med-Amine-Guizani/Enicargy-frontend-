@@ -10,9 +10,6 @@ import { catchError } from 'rxjs/operators';
 })
 export class ArticleService {
   private articles: Article[] = [
-    { id: 1, title: 'Article 1', body: 'Content of article 1' },
-    { id: 2, title: 'Article 2', body: 'Content of article 2' },
-    { id: 3, title: 'Article 3', body: 'Content of article 3' }
   ];
   
 

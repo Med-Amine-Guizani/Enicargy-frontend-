@@ -6,24 +6,67 @@
 
 <div *ngIf="!isLoading && !errorMessage">
   <!-- Reclamation En Attente Section -->
-  <section *ngIf="reclamationsEnAttente.length > 0">
+  <section *ngIf="reclamationsEnAttente.length > 0" class="reclamations-section">
     <div class="section-header">
       <hr />
       <h2>Reclamation En Attente</h2>
     </div>
-    <div *ngFor="let reclamation of reclamationsEnAttente">
-      <app-reclamation (statusAdvanced)="loadReclamations()" [reclamation]="reclamation"></app-reclamation>
+    
+    <div class="scroll-container">
+      <button class="scroll-button left" 
+              (click)="scrollAttenteLeft()" 
+              [class.hidden]="isAttenteAtStart"
+              aria-label="Scroll left">
+        &lt;
+      </button>
+      
+      <div class="reclamations-wrapper" 
+           #attenteScrollWrapper
+           (touchstart)="handleAttenteTouchStart($event)"
+           (touchmove)="handleAttenteTouchMove($event)">
+        <div class="reclamations-scroll">
+          <app-reclamation 
+            *ngFor="let reclamation of reclamationsEnAttente"
+            (statusAdvanced)="loadReclamations()"  
+            [reclamation]="reclamation">
+          </app-reclamation>
+        </div>
+      </div>
+      
+      <button class="scroll-button right" 
+              (click)="scrollAttenteRight()" 
+              [class.hidden]="isAttenteAtEnd"
+              aria-label="Scroll right">
+        &gt;
+      </button>
     </div>
   </section>
 
   <!-- Reclamation En Cours Section -->
-  <section *ngIf="reclamationsEnCours.length > 0">
+  <section *ngIf="reclamationsEnCours.length > 0" class="reclamations-section">
     <div class="section-header">
       <hr />
       <h2>Reclamation En Cours</h2>
     </div>
-    <div *ngFor="let reclamation of reclamationsEnCours">
-      <app-reclamation (statusAdvanced)="loadReclamations()"  [reclamation]="reclamation"></app-reclamation>
+    
+    <div class="scroll-container">
+      <button class="scroll-button left" (click)="scrollLeft()" aria-label="Scroll left">
+        &lt;
+      </button>
+      
+      <div class="reclamations-wrapper" #scrollWrapper>
+        <div class="reclamations-scroll">
+          <app-reclamation 
+            *ngFor="let reclamation of reclamationsEnCours"
+            (statusAdvanced)="loadReclamations()"  
+            [reclamation]="reclamation">
+          </app-reclamation>
+        </div>
+      </div>
+      
+      <button class="scroll-button right" (click)="scrollRight()" aria-label="Scroll right">
+        &gt;
+      </button>
     </div>
   </section>
 
