@@ -10,7 +10,7 @@
     {{ reclamation?.status }}
   </span>
 
-  <img [src]="reclamation?.photoUrl"  class="photo" (load)="onLoad()" (error)="onError()"  />
+  <img [src]="photoUrl" alt="Reclamation Photo"  class="photo"   />
 
   <button *ngIf="reclamation?.status !== 'Terminer'" (click)="changeState()" class="action-button">
     {{ reclamation?.status === 'En_Attente' ? 'Résoudre' : 'Résolu' }}

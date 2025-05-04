@@ -5,7 +5,7 @@ import { Rapport } from '../../models/rapport';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { RapportUploadPayload } from '../../models/rapportuploadplayload';
 @Component({
   selector: 'app-rapport-form',
   standalone: true,
@@ -13,9 +13,10 @@ import { Router } from '@angular/router';
   templateUrl: './rapport-form.component.html',
   styleUrl: './rapport-form.component.css'
 })
+
 export class RapportFormComponent {
 
-@Output() rapportAdded = new EventEmitter<Rapport>();
+@Output() rapportAdded = new EventEmitter<RapportUploadPayload>();
 
 
   reportForm: FormGroup;
@@ -30,23 +31,15 @@ export class RapportFormComponent {
   onSubmit(): void {
     if (this.reportForm.valid) {
       const formData = new FormData();
-      formData.append('id', uuidv4());
       formData.append('title', this.reportForm.value.title);
       formData.append('file', this.reportForm.value.file);
-  
-      // For now, just log or store locally
-      console.log('Submitting report:', formData);
-      // e.g., Save to localStorage or simulate upload
-      
-
-      //this article ( new article gonna be the one returned from the backend ( with a real id )  not a temporary one )
-      const newReport: Rapport = {
-        id: this.reportForm.value.id,
-        title: this.reportForm.value.title!,
-        date: new Date().toISOString(),
-      };
-
-      this.rapportAdded.emit(newReport); 
+      formData.forEach((val, key) => console.log(key, val));
+      this.rapportAdded.emit(
+        {
+          title: this.reportForm.value.title,
+          file: this.reportForm.value.file
+        } as RapportUploadPayload
+      );
       this.reportForm.reset(); 
     }
   }
@@ -56,6 +49,7 @@ export class RapportFormComponent {
     if (file && file.type === 'application/pdf') {
       this.reportForm.patchValue({ file });
       this.reportForm.get('file')?.updateValueAndValidity();
+      
     } else {
       // Handle error: not a PDF
     }

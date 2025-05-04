@@ -40,7 +40,7 @@ export class PageArticleComponent {
     this.loading = true;
     this.articleService.updateArticle(updatedArticle).subscribe({
       next: (response) => {
-        // Update the article in the local array
+        
         const index = this.articles.findIndex(a => a.id === updatedArticle.id);
         if (index !== -1) {
           this.articles[index] = response || updatedArticle;
@@ -82,28 +82,19 @@ export class PageArticleComponent {
   saveNewArticle(newArticle: Article): void {
     this.loading = true;
     
+    this.articleService.createArticle(newArticle).subscribe({
+      next: (response) => {
+        this.articles.push(response || newArticle); 
+        this.loading = false;
+        this.showAddForm = false; 
+      },
+      error: (error) => {
+        console.error('Error creating article:', error);
+        this.loading = false;
+      }
+    });
     
-    setTimeout(() => {
-     
-      const maxId = this.articles.length > 0 
-        ? Math.max(...this.articles.map(a => a.id)) 
-        : 0;
-      
-      const savedArticle = { 
-        ...newArticle,
-        id: maxId + 1
-      };
-      
-      // Add to the articles array
-      this.articles.push(savedArticle);
-      // Create a new array reference to trigger change detection
-      this.articles = [...this.articles];
-      
-      this.showAddForm = false; // Close the form
-      this.loading = false;
-      
-      console.log('New article added:', savedArticle);
-    }, 500); // Simulate network delay
+    
   }
 
   

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReclamationAdminService } from '../../services/reclamation-admin.service';
 import { Reclamation } from '../../models/reclamationvAdmin';
+import { EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-reclamation',
@@ -12,6 +13,12 @@ import { Reclamation } from '../../models/reclamationvAdmin';
 })
 export class ReclamationComponent  {
   @Input() reclamation: Reclamation | null = null;
+  @Output() statusAdvanced = new EventEmitter<Reclamation>();
+  get photoUrl(): string {
+    return this.reclamation?.photourl
+      ? 'http://localhost:9090/uploads/' + this.reclamation.photourl
+      : 'assets/images/placeholder.jpg';
+  }
   imageLoading = true;
 
   constructor(private reclamationService: ReclamationAdminService) {}
@@ -28,29 +35,24 @@ export class ReclamationComponent  {
   }
 
   changeState(): void {
-    let newState: Reclamation['status'] | null = null;
-
-    if (this.reclamation?.status === 'En_Attente') {
-      newState = 'En_cours';
-    } else if (this.reclamation?.status === 'En_cours') {
-      newState = 'Terminer';
-    }
-
-    if (newState && this.reclamation?.id) {
-      this.reclamationService.updateReclamationState(this.reclamation.id, newState)
-        .subscribe(
-          updated => {
-            if (this.reclamation) {
-              this.reclamation.status = updated.status;
-            }
-            console.log('Reclamation state updated:', updated);
-          },
-          err => {
-            console.error('Failed to update state:', err);
-          }
-        );
-    }
+    if (!this.reclamation?.id) return;
+  
+    this.reclamationService.updateReclamationState(this.reclamation.id).subscribe({
+      next: (updated) => {
+        console.log("child reclamation with id :", this.reclamation?.id , "is sending signal to parent");
+        this.statusAdvanced.emit(updated);
+        if (this.reclamation) {
+          this.reclamation.status = updated.status;
+        }
+        console.log('Reclamation state updated:', updated);
+        this.statusAdvanced.emit(updated);
+      },
+      error: (err) => {
+        console.error('Failed to update state:', err);
+      }
+    });
   }
+  
 
   get stateClass(): string {
     switch (this.reclamation?.status) {
@@ -65,14 +67,5 @@ export class ReclamationComponent  {
     }
   }
 
-  onLoad(): void {
-    this.imageLoading = false;
-  }
 
-  onError(): void {
-    this.imageLoading = false;
-    if (this.reclamation) {
-      this.reclamation.photoUrl = '/placeholder.jpg';
-    }
-  }
 }

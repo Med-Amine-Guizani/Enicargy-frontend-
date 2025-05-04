@@ -29,7 +29,7 @@ export class AddClaimComponent {
     local: '',
     salle: '',
     status: 'En_Attente',
-    photoUrl: ''
+    photourl: ''
   };
 
   // Fichier sélectionné
@@ -74,7 +74,7 @@ export class AddClaimComponent {
           local: '',
           salle: '',
           status: 'En_Attente',
-          photoUrl: ''
+          photourl: ''
         };
         this.selectedFile = null;
       },

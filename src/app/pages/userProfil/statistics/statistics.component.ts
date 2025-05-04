@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
-import { Reclamation } from '../../../models/reclamationvAdmin';
 import { ReclamationsService } from '../../../services/reclamations.service';
-import { StatutReclamation } from '../../../pages/add-claim/add-claim.component';
+import { TokenService } from '../../../services/TokenService';
 
 @Component({
   selector: 'app-statistics',
@@ -14,56 +13,59 @@ import { StatutReclamation } from '../../../pages/add-claim/add-claim.component'
 })
 export class StatisticsComponent implements OnInit {
   reclamationChart!: Chart;
+  userId: number = -1;
 
-  constructor(private reclamationService: ReclamationsService) {
+  // Champs pour afficher le nombre de réclamations
+  enAttente: number = 0;
+  enCours: number = 0;
+  terminee: number = 0;
+
+  constructor(
+    private reclamationService: ReclamationsService,
+    public tokenService: TokenService
+  ) {
     Chart.register(...registerables);
   }
 
   ngOnInit(): void {
-    this.reclamationService.getClaims().subscribe(reclamations => {
-      if (reclamations.length === 0) {
-        const chartData = {
-          labels: ['Aucune réclamation'],
-          values: [1],
-          colors: ['#E0E0E0']
-        };
+    const id = this.tokenService.getUserId();
+    if (id !== null) {
+      this.userId = id;
+      this.reclamationService.getStatusCountsByUser(this.userId).subscribe((statusCounts: any) => {
+        // Stockage pour affichage
+        this.enAttente = statusCounts.en_attente;
+        this.enCours = statusCounts.en_cours;
+        this.terminee = statusCounts.terminer;
+
+        const chartData = this.convertStatsToChartData(statusCounts);
         this.initReclamationChart(chartData);
-      } else {
-        const chartData = this.processReclamations(reclamations);
-        this.initReclamationChart(chartData);
-      }
-    });
+      });
+    }
   }
 
-  processReclamations(reclamations: Reclamation[]): {
-    labels: string[],
-    values: number[],
-    colors: string[]
-  } {
-    const countMap = new Map<StatutReclamation, number>();
-
-    const colorMap: Record<StatutReclamation, string> = {
-      [StatutReclamation.TERMINEE]: '#9886FF',
-      [StatutReclamation.EN_COURS]: '#1BF3EF',
-      [StatutReclamation.EN_ATTENTE]: '#FD95A2'
-    };
-
-    reclamations.forEach(rec => {
-      const status = rec.status as StatutReclamation;
-      countMap.set(status, (countMap.get(status) || 0) + 1);
-    });
-
-    const labels = Array.from(countMap.keys()).map(key => key);
-    const values = Array.from(countMap.values());
-    const colors = labels.map(label => colorMap[label]);
+  convertStatsToChartData(stats: any): {
+    labels: string[];
+    values: number[];
+    colors: string[];
+  }{
+    const labels = [
+      `En attente (${this.enAttente})`,
+      `En cours (${this.enCours})`,
+      `Terminée (${this.terminee})`
+    ];
+    const values = [this.enAttente, this.enCours, this.terminee];
+    const colors = ['#FD95A2', '#1BF3EF', '#9886FF'];
 
     return { labels, values, colors };
   }
 
+
   initReclamationChart(data: { labels: string[], values: number[], colors: string[] }): void {
     if (typeof window === 'undefined') return;
+
     const canvas = document.getElementById('reclamationChart') as HTMLCanvasElement | null;
     if (!canvas) return;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -83,7 +85,7 @@ export class StatisticsComponent implements OnInit {
         plugins: {
           title: {
             display: true,
-            text: 'Réclamation par statut',
+            text: 'Réclamations par statut',
             font: {
               size: 14,
               weight: 'bold'
