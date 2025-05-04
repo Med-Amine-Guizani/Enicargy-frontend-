@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { EnicargyDashboardService } from '../../services/enicargy-dashboard.service';
@@ -10,7 +10,7 @@ import { EnicargyDashboardService } from '../../services/enicargy-dashboard.serv
   templateUrl: './enicargy-dashboard.component.html',
   styleUrls: ['./enicargy-dashboard.component.scss']
 })
-export class EnicargyDashboardComponent implements OnInit {
+export class EnicargyDashboardComponent implements OnInit, AfterViewInit {
   chartConsommation!: Chart;
   chartReclamation!: Chart;
   chartParticipation!: Chart;
@@ -19,57 +19,62 @@ export class EnicargyDashboardComponent implements OnInit {
   reclamationData: { total: number[]; terminee: number[] } = { total: [], terminee: [] };
   participationData: { name: string; value: number; color: string }[] = [];
 
-  loadMockData(): void {
-    this.consommationData = {
-      electricite: [120, 130, 110, 140, 150, 160, 170, 160, 150, 140, 130, 120],
-      eau: [80, 90, 70, 85, 95, 100, 105, 95, 90, 85, 80, 75]
-    };
-  
-    this.reclamationData = {
-      total: [5, 8, 10, 12, 15, 20, 18, 17, 12, 10, 6, 4],
-      terminee: [3, 5, 7, 9, 12, 16, 14, 15, 10, 9, 5, 3]
-    };
-  
-    this.participationData = [
-      { name: 'Participé', value: 60, color: '#4caf50' },
-      { name: 'Non Participé', value: 40, color: '#f44336' }
-    ];
-  
-    this.initConsommationChart();
-    this.initReclamationChart();
-    this.initParticipationChart();
-  }
-
   mois = ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'];
-
-
 
   constructor(private dashboardService: EnicargyDashboardService) {
     Chart.register(...registerables);
+    console.log('EnicargyDashboardComponent constructor called'); // LOG
   }
 
   ngOnInit(): void {
-    this.loadMockData();
-    this.dashboardService.getConsommationData().subscribe(data => {
-      this.consommationData = data;
-      this.initConsommationChart();
-    });
+    console.log('ngOnInit called'); // LOG
+    this.dashboardService.getConsommationData().subscribe(
+      data => {
+        this.consommationData = data;
+        console.log("Données reçues dans le composant :", this.consommationData); // LOG
+        this.initConsommationChart();
+      },
+      error => {
+        console.error("Erreur lors de la récupération des données de consommation :", error); // LOG
+      }
+    );
 
-    this.dashboardService.getReclamationData().subscribe(data => {
-      this.reclamationData = data;
-      this.initReclamationChart();
-    });
+    this.dashboardService.getReclamationData().subscribe(
+      data => {
+        this.reclamationData = data;
+        this.initReclamationChart();
+      },
+      error => {
+        console.error("Erreur lors de la récupération des données de réclamation :", error); // LOG
+      }
+    );
 
-    this.dashboardService.getParticipationData().subscribe(data => {
-      this.participationData = data;
-      this.initParticipationChart();
-    });
+    this.dashboardService.getParticipationData().subscribe(
+      data => {
+        this.participationData = data;
+        this.initParticipationChart();
+      },
+      error => {
+        console.error("Erreur lors de la récupération des données de participation :", error); // LOG
+      }
+    );
+  }
+
+  ngAfterViewInit(): void {
+    console.log('ngAfterViewInit called'); // LOG
   }
 
   initConsommationChart(): void {
+    console.log("initConsommationChart called"); // LOG
+    console.log("Données utilisées pour le graphique de consommation :", this.consommationData.electricite, this.consommationData.eau); // LOG
     const canvas = document.getElementById('consommationChart') as HTMLCanvasElement;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    console.log("Canvas element:", canvas); // LOG
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    console.log("Canvas context:", ctx); // LOG
+    if (!ctx) {
+      console.error("Erreur: Impossible d'obtenir le contexte 2D du canvas 'consommationChart'"); // LOG
+      return;
+    }
 
     const config: ChartConfiguration = {
       type: 'line',
@@ -77,14 +82,14 @@ export class EnicargyDashboardComponent implements OnInit {
         labels: this.mois,
         datasets: [
           {
-            label: 'Électricité',
+            label: 'Électricité en (kWh)',
             data: this.consommationData.electricite,
             borderColor: '#3f51b5',
             backgroundColor: '#3f51b580',
             fill: true
           },
           {
-            label: 'Eau',
+            label: 'Eau en (m3)',
             data: this.consommationData.eau,
             borderColor: '#4caf50',
             backgroundColor: '#4caf5080',
@@ -112,12 +117,21 @@ export class EnicargyDashboardComponent implements OnInit {
     };
 
     this.chartConsommation = new Chart(ctx, config);
+    console.log("chartConsommation initialized:", this.chartConsommation); // LOG
   }
 
   initReclamationChart(): void {
+    // Logs pour le graphique de réclamation (similaires à initConsommationChart)
+    console.log("initReclamationChart called"); // LOG
+    console.log("Données utilisées pour le graphique de réclamation :", this.reclamationData); // LOG
     const canvas = document.getElementById('reclamationChart') as HTMLCanvasElement;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    console.log("Canvas element (reclamationChart):", canvas); // LOG
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    console.log("Canvas context (reclamationChart):", ctx); // LOG
+    if (!ctx) {
+      console.error("Erreur: Impossible d'obtenir le contexte 2D du canvas 'reclamationChart'"); // LOG
+      return;
+    }
 
     const config: ChartConfiguration = {
       type: 'bar',
@@ -166,12 +180,21 @@ export class EnicargyDashboardComponent implements OnInit {
     };
 
     this.chartReclamation = new Chart(ctx, config);
+    console.log("chartReclamation initialized:", this.chartReclamation); // LOG
   }
 
   initParticipationChart(): void {
+    // Logs pour le graphique de participation (similaires aux autres)
+    console.log("initParticipationChart called"); // LOG
+    console.log("Données utilisées pour le graphique de participation :", this.participationData); // LOG
     const canvas = document.getElementById('participationChart') as HTMLCanvasElement;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    console.log("Canvas element (participationChart):", canvas); // LOG
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    console.log("Canvas context (participationChart):", ctx); // LOG
+    if (!ctx) {
+      console.error("Erreur: Impossible d'obtenir le contexte 2D du canvas 'participationChart'"); // LOG
+      return;
+    }
 
     const config: ChartConfiguration = {
       type: 'doughnut',
@@ -222,5 +245,6 @@ export class EnicargyDashboardComponent implements OnInit {
     };
 
     this.chartParticipation = new Chart(ctx, config);
+    console.log("chartParticipation initialized:", this.chartParticipation); // LOG
   }
 }

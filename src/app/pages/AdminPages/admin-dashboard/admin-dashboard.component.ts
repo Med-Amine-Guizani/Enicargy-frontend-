@@ -1,13 +1,12 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import {ChartService } from '../../../services/chart.service';
+import { ChartService } from '../../../services/chart.service';
 import { CommonModule } from '@angular/common';
-import { forkJoin } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
-import{ConsumptionData,ReclamationData,UtilisationStats} from '../../../models/chart-data.model';
+import { ConsumptionData } from '../../../models/chart-data.model';
 import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
-import { Chart, ChartConfiguration, ChartTypeRegistry, registerables  } from 'chart.js';
-import { LogisticsService } from '../../../services/logistics.service';
+import { Chart, registerables } from 'chart.js';
 import { LogisticsMonitoringComponent } from '../../../components/logistics-monitoring/logistics-monitoring.component';
+
 Chart.register(...registerables);
 
 @Component({
@@ -15,182 +14,183 @@ Chart.register(...registerables);
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css'],
   standalone: true,
-  imports: [CommonModule, MatIconModule, SidebarComponent,LogisticsMonitoringComponent],
-  providers: [ChartService] 
+  imports: [CommonModule, MatIconModule, SidebarComponent, LogisticsMonitoringComponent],
+  providers: [ChartService]
 })
 export class AdminDashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('lineChart') lineChartRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('doughnutChart') doughnutChartRef!: ElementRef<HTMLCanvasElement>;
 
-  isLoading:boolean=true;
-  chairs: number = 0;
-  tables: number = 0;
-  projectors: number = 0;
-
+  isLoading: boolean = true;
   private lineChart?: Chart;
   private doughnutChart?: Chart;
+  consumptionData: { electricite: number[]; eau: number[] } = { electricite: [], eau: [] };
+  statsData: any = { utilisateurs: '...', electricite: '...', eau: '...', reclamations: '...' }; // Exemple de données pour les stats
+  reclamationStats: any = { enAttente: 0, enCours: 0, terminee: 0 };
+  chairs: number = 15; // Exemple de données logistiques
+  tables: number = 7;
+  projectors: number = 2;
 
-  consumptionData: ConsumptionData[] = [];  // vide par défaut
-
-  // Remplissage initial vide, mais valide
-  reclamationData: ReclamationData = {
-    enAttente: 0,
-    enCours: 0,
-    terminee: 0
-  };
-
-  statsData: UtilisationStats = {
-    utilisateurs: 0,
-    max: 1, // éviter division par 0 dans progress bar
-    eau: 0,
-    electricite: 0,
-    reclamations: 0,
-    min: 1 // éviter division par 0 dans progress bar,
-
-  };
-
-  constructor( private chartService: ChartService ,private logisticsService: LogisticsService) {}
+  constructor(private chartService: ChartService) {}
 
   ngOnInit() {
-    // Example using forkJoin if all values load together
-    forkJoin({
-      chairs: this.logisticsService.getChairs(),
-      tables: this.logisticsService.getDesks(),
-      projectors: this.logisticsService.getProjectors(),
-    }).subscribe(data => {
-      this.chairs = data.chairs;
-      this.tables = data.tables;
-      this.projectors = data.projectors;
-      this.isLoading = false; 
-    });
-    
-    this.chartService.getConsumptionData().subscribe(data => {
-      this.consumptionData = data;
-    });
-
-    this.chartService.getReclamationData().subscribe(data => {
-      this.reclamationData = data;
-    });
-
-    this.chartService.getUtilisationStats().subscribe(data => {
-      this.statsData = data;
-    });
+    this.loadInitialData();
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.createLineChart();
-      this.createDoughnutChart();
-    }, 500);
-  }
-  createLineChart() {
-    const ctx = this.lineChartRef.nativeElement.getContext('2d');
-    
-    // Vérification du contexte
-  if (!ctx) {
-    console.error('Impossible d\'obtenir le contexte du canvas');
-    return;
+    // La création des graphiques est déplacée dans loadInitialData pour s'assurer que les données sont chargées
   }
 
-  const labels = this.consumptionData.map(item => item.month);
-  const electriciteData = this.consumptionData.map(item => item.electricite);
-  const eauData = this.consumptionData.map(item => item.eau);
-  
-  // Destruction du graphique existant s'il y en a un
-  if (this.lineChart) {
-    this.lineChart.destroy();
-  }
-
-  this.lineChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Électricité',
-          data: electriciteData,
-          borderColor: '#d0b055',
-          backgroundColor: 'rgba(208, 176, 85, 0.1)',
-          tension: 0.4,
-          fill: true
-        },
-        {
-          label: 'Eau',
-          data: eauData,
-          borderColor: '#5084d0',
-          backgroundColor: 'rgba(80, 132, 208, 0.1)',
-          tension: 0.4,
-          fill: true
+  loadInitialData() {
+    this.isLoading = true;
+    console.log('loadInitialData called');
+    this.chartService.getConsumptionData().subscribe(
+      (data: ConsumptionData) => {
+        console.log('Données brutes reçues :', data);
+        if (data && data.electricite && data.eau) {
+          this.consumptionData = {
+            electricite: data.electricite,
+            eau: data.eau
+          };
+          console.log('consumptionData assigné :', this.consumptionData);
+          this.createLineChart();
+        } else {
+          console.warn('Données invalides ou absentes :', data);
         }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'top',
-        },
-        title: {
-          display: true,
-          text: 'Variation de la consommation d\'eau/électricité par mois'
-        }
+        this.isLoading = false;
       },
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+      error => {
+        console.error('Erreur lors de la récupération des données :', error);
+        this.isLoading = false;
       }
-    }
-  });
-}
+    );
+    // Simuler la récupération des données pour les statistiques et le graphique doughnut
+    // Dans une application réelle, vous auriez probablement d'autres services pour cela
+    setTimeout(() => {
+      this.statsData = { utilisateurs: 125, electricite: '350 kWh', eau: '12 m³', reclamations: 5 };
+      this.reclamationStats = { enAttente: 10, enCours: 15, terminee: 25 };
+      //this.createDoughnutChart();
+      this.isLoading = false;
+    }, 1000);
 
-  createDoughnutChart(): void {
-    const ctx = this.doughnutChartRef.nativeElement.getContext('2d');
-    
-    // Vérification du contexte
-    if (!ctx) {
-      console.error('Impossible d\'obtenir le contexte du canvas');
+    // Simuler le chargement des données logistiques
+    setTimeout(() => {
+      this.chairs = 22;
+      this.tables = 10;
+      this.projectors = 3;
+    }, 1500);
+  }
+
+  createLineChart() {
+    if (!this.lineChartRef?.nativeElement) {
+      console.error('lineChartRef is undefined');
       return;
     }
-  
-    // Destruction du graphique existant s'il y en a un
+
+    const ctx = this.lineChartRef.nativeElement.getContext('2d');
+    if (!ctx) {
+      console.error('Failed to get line chart context');
+      return;
+    }
+
+    const labels = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
+    const electriciteData = this.consumptionData?.electricite || [];
+    const eauData = this.consumptionData?.eau || [];
+    console.log('Labels:', labels);
+    console.log('Electricite Data:', electriciteData);
+    console.log('Eau Data:', eauData);
+
+    if (electriciteData.length !== labels.length) {
+      console.warn('La longueur des données électrique ne correspond pas aux labels:', electriciteData.length, labels.length);
+    }
+    if (eauData.length !== labels.length) {
+      console.warn('La longueur des données eau ne correspond pas aux labels:', eauData.length, labels.length);
+    }
+
+    if (this.lineChart) {
+      this.lineChart.destroy();
+    }
+
+    try {
+      this.lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Électricité en (kWh)',
+              data: electriciteData,
+              borderColor: '#3f51b5',
+              backgroundColor: '#3f51b580',
+              fill: true
+            },
+            {
+              label: 'Eau en (m3)',
+              data: eauData,
+              borderColor: '#4caf50',
+              backgroundColor: '#4caf5080',
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio:false,
+          
+          plugins: {
+            title: {
+              display: true,
+              text: 'Consommation d\'électricité et d\'eau ',
+              font: { size: 14, weight: 'bold' }
+            },
+            legend: { position: 'bottom' }
+          },
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+      console.log('Line chart created:', this.lineChart);
+    } catch (error) {
+      console.error('Error creating line chart:', error);
+    }
+  }
+}
+
+  /*createDoughnutChart() {
+    if (!this.doughnutChartRef?.nativeElement) {
+      return;
+    }
+
+    const ctx = this.doughnutChartRef.nativeElement.getContext('2d');
+    if (!ctx) {
+      console.error('Failed to get doughnut chart context');
+      return;
+    }
+
     if (this.doughnutChart) {
       this.doughnutChart.destroy();
     }
-  
+
     this.doughnutChart = new Chart(ctx, {
       type: 'doughnut',
       data: {
         labels: ['En Attente', 'En Cours', 'Terminée'],
         datasets: [{
-          data: [this.reclamationData.enAttente, this.reclamationData.enCours, this.reclamationData.terminee],
-          backgroundColor: [
-            '#ff6384',
-            '#36a2eb',
-            '#4bc0c0'
-          ]
+          data: [this.reclamationStats.enAttente, this.reclamationStats.enCours, this.reclamationStats.terminee],
+          backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe'],
+          hoverOffset: 4
         }]
       },
       options: {
         responsive: true,
         plugins: {
           legend: {
-            display: false
+            position: 'bottom',
+          },
+          title: {
+            display: true,
+            text: 'Statut des Réclamations'
           }
         }
       }
     });
-  }
- 
-  
-  getProgressBarClass(value: number, max: number): string {
-    const percentage = (value / max) * 100;
-    
-    if (percentage < 30) return 'low';
-    if (percentage < 70) return 'medium';
-    return 'high';
-  }
-    
-  
-    
-}
+  }*/

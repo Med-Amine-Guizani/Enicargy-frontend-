@@ -8,20 +8,14 @@ import { HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class ChartService {
-  private apiUrl = 'http://localhost:8080/api'; //Spring Boot backend URL by default 
-  constructor(private http: HttpClient) { }
- 
+  private apiUrl =  'http://localhost:9090/api/consommation/scrapped-data';
   
-
-  /**
-   * Récupère les données de consommation depuis le backend
-   * @param period Période à filtrer (optionnel)
-   */
-  getConsumptionData(): Observable<ConsumptionData[]> {
-    let url = `${this.apiUrl}/consumption`;
-  return this.http.get<ConsumptionData[]>(url);
+    constructor(private http: HttpClient) {}
+  
+  getConsumptionData(): Observable<ConsumptionData> {
+    return this.http.get<ConsumptionData>(this.apiUrl);
   }
-  getReclamationData(): Observable<ReclamationData> {
+ /* getReclamationData(): Observable<ReclamationData> {
     let url = `${this.apiUrl}/reclamations/stats`;
     return this.http.get<ReclamationData>(url);
   }
@@ -33,5 +27,5 @@ export class ChartService {
       url += `?userId=${userId}`;
     }
     return this.http.get<UtilisationStats>(url);
-  }
+  }*/
 }

@@ -6,12 +6,12 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class EnicargyDashboardService {
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl =  'http://localhost:9090/api/consommation/scrapped-data';
 
   constructor(private http: HttpClient) {}
-
+  
   getConsommationData(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/consommation`);
+    return this.http.get(this.apiUrl);
   }
 
   getReclamationData(): Observable<any> {

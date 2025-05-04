@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EnicargyDashboardService } from './services/enicargy-dashboard.service';
+import { EnicargyDashboardService } from '../services/enicargy-dashboard.service';
 
 describe('EnicargyDashboardService', () => {
   let service: EnicargyDashboardService;
