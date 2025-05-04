@@ -6,6 +6,8 @@ import { ConsumptionData } from '../../../models/chart-data.model';
 import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
 import { Chart, registerables } from 'chart.js';
 import { LogisticsMonitoringComponent } from '../../../components/logistics-monitoring/logistics-monitoring.component';
+import { ReclamationsService } from '../../../services/reclamations.service';
+import { TokenService } from '../../../services/TokenService';
 
 Chart.register(...registerables);
 
@@ -31,10 +33,40 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   tables: number = 7;
   projectors: number = 2;
 
-  constructor(private chartService: ChartService) {}
+
+   // Champs pour afficher le nombre de réclamations
+   enAttente: number = 0;
+   enCours: number = 0;
+   terminee: number = 0;
+
+
+  constructor(private chartService: ChartService , 
+    private reclamationService: ReclamationsService,
+    public tokenService: TokenService) {}
 
   ngOnInit() {
     this.loadInitialData();
+    const token = this.tokenService.getToken();
+    if (token !== null) {
+      this.reclamationService.getReclamationStatusByMonth().subscribe((statusCounts: any[]) => {
+        if (statusCounts.length > 0) {
+          const lastMonth = statusCounts[statusCounts.length - 1];
+          this.enAttente = lastMonth.enAttente;
+          this.enCours = lastMonth.enCours;
+          this.terminee = lastMonth.terminees;
+          const chartData = this.convertStatsToChartData(lastMonth);
+          this.createDoughnutChart(chartData);
+        }
+      });
+    }
+
+  }
+  convertStatsToChartData(stats: any): { enAttente: number; enCours: number; terminee: number } {
+    return {
+      enAttente: stats.enAttente || 0,
+      enCours: stats.enCours || 0,
+      terminee: stats.terminees || 0
+    };
   }
 
   ngAfterViewInit() {
@@ -153,6 +185,45 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
       console.error('Error creating line chart:', error);
     }
   }
+  createDoughnutChart(data: { enAttente: number; enCours: number; terminee: number }) {
+    if (!this.doughnutChartRef?.nativeElement) {
+      console.error('doughnutChartRef is undefined');
+      return;
+    }
+
+    const ctx = this.doughnutChartRef.nativeElement.getContext('2d');
+    if (!ctx) {
+      console.error('Failed to get doughnut chart context');
+      return;
+    }
+
+    if (this.doughnutChart) {
+      this.doughnutChart.destroy();
+    }
+
+    this.doughnutChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['En attente', 'En cours', 'Terminée'],
+        datasets: [{
+          data: [data.enAttente, data.enCours, data.terminee],
+          backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+    
+  }
+
 }
 
   /*createDoughnutChart() {
@@ -194,3 +265,4 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
       }
     });
   }*/
+  

@@ -2,6 +2,16 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { EnicargyDashboardService } from '../../services/enicargy-dashboard.service';
+import { ReclamationsService } from '../../services/reclamations.service';
+import { TokenService } from '../../services/TokenService';
+
+
+interface MonthlyStat {
+  mois: string;
+  total: number;
+  terminees: number;
+}
+
 
 @Component({
   selector: 'app-enicargy-dashboard',
@@ -14,14 +24,29 @@ export class EnicargyDashboardComponent implements OnInit, AfterViewInit {
   chartConsommation!: Chart;
   chartReclamation!: Chart;
   chartParticipation!: Chart;
+  
+  //champs pour afficher le nb de reclamation par user role
+  etudiantCount: number = 0;
+  enseigneantcount: number = 0;
+  personnelcount: number = 0;
+  
+   //champs pour afficher le nb de reclamation par status
+   enAttente: number = 0;
+   terminée: number = 0;
+   enCours: number = 0;
 
   consommationData: { electricite: number[]; eau: number[] } = { electricite: [], eau: [] };
   reclamationData: { total: number[]; terminee: number[] } = { total: [], terminee: [] };
   participationData: { name: string; value: number; color: string }[] = [];
 
+  monthlyStats: MonthlyStat[] = [];
+
   mois = ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'];
 
-  constructor(private dashboardService: EnicargyDashboardService) {
+  constructor(private dashboardService: EnicargyDashboardService,
+    private reclamationService: ReclamationsService,
+    public tokenService: TokenService) {
+    
     Chart.register(...registerables);
     console.log('EnicargyDashboardComponent constructor called'); // LOG
   }
@@ -42,7 +67,7 @@ export class EnicargyDashboardComponent implements OnInit, AfterViewInit {
     this.dashboardService.getReclamationData().subscribe(
       data => {
         this.reclamationData = data;
-        this.initReclamationChart();
+  
       },
       error => {
         console.error("Erreur lors de la récupération des données de réclamation :", error); // LOG
@@ -51,13 +76,50 @@ export class EnicargyDashboardComponent implements OnInit, AfterViewInit {
 
     this.dashboardService.getParticipationData().subscribe(
       data => {
-        this.participationData = data;
-        this.initParticipationChart();
+        this.participationData = data
       },
       error => {
         console.error("Erreur lors de la récupération des données de participation :", error); // LOG
       }
     );
+
+    const token=this.tokenService.getToken();
+    if(token!==null){
+      this.reclamationService.getReclamationCountsByUserRole().subscribe((reclamationcount:any)=>{
+        //stockage pour affichage
+        this.etudiantCount = reclamationcount.etudiant;
+        this.enseigneantcount = reclamationcount.enseigneant;
+        this.personnelcount = reclamationcount.personnel;
+
+        const chartData = this.convertStatsToChartData(reclamationcount);
+        this.initParticipationChart(chartData);
+      })
+
+      // Appel à l'API qui retourne List<MonthlyReclamationDTO>
+    this.reclamationService.getReclamationByMonth().subscribe((data: MonthlyStat[]) => {
+      this.monthlyStats = data;
+      const chartData = this.buildChartData(data);
+      this.initReclamationChart(chartData);
+    });
+    }
+  }
+
+  private buildChartData(stats: MonthlyStat[]) {
+    // On aligne les données sur les 12 mois
+    const labels   = this.mois;
+    const total    = new Array<number>(12).fill(0);
+    const terminees = new Array<number>(12).fill(0);
+
+    stats.forEach(s => {
+      // trouve l'indice du mois (Janvier => 0, Févr. => 1, ...)
+      const idx = this.mois.findIndex(m => m.startsWith(s.mois.substr(0, 3)));
+      if (idx >= 0) {
+        total[idx]     = s.total;
+        terminees[idx] = s.terminees;  // ou `s.terminees` selon orthographe
+      }
+    });
+
+    return { labels, total, terminees };
   }
 
   ngAfterViewInit(): void {
@@ -120,7 +182,7 @@ export class EnicargyDashboardComponent implements OnInit, AfterViewInit {
     console.log("chartConsommation initialized:", this.chartConsommation); // LOG
   }
 
-  initReclamationChart(): void {
+  initReclamationChart(data: { labels: string[]; total: number[]; terminees: number[] }): void {
     // Logs pour le graphique de réclamation (similaires à initConsommationChart)
     console.log("initReclamationChart called"); // LOG
     console.log("Données utilisées pour le graphique de réclamation :", this.reclamationData); // LOG
@@ -136,18 +198,18 @@ export class EnicargyDashboardComponent implements OnInit, AfterViewInit {
     const config: ChartConfiguration = {
       type: 'bar',
       data: {
-        labels: this.mois,
+        labels: data.labels,
         datasets: [
           {
-            label: 'Réclamation totale',
-            data: this.reclamationData.total,
+            label: 'Réclamations totales',
+            data: data.total,
             backgroundColor: '#4040FF',
             barPercentage: 0.9,
             categoryPercentage: 0.8
           },
           {
-            label: 'Réclamation terminée',
-            data: this.reclamationData.terminee,
+            label: 'Réclamations terminées',
+            data: data.terminees,
             backgroundColor: '#FF8000',
             barPercentage: 0.9,
             categoryPercentage: 0.8
@@ -183,10 +245,27 @@ export class EnicargyDashboardComponent implements OnInit, AfterViewInit {
     console.log("chartReclamation initialized:", this.chartReclamation); // LOG
   }
 
-  initParticipationChart(): void {
+
+  convertStatsToChartData(status:any):{
+        labels:string[];
+        values:number[];
+        colors:string[];
+  }{
+    const labels=[
+      `Etudiant(${this.etudiantCount})`,
+      `Enseigneant(${this.enseigneantcount})`,
+      `Personnel(${this.personnelcount})`
+    ];
+    const values=[this.etudiantCount, this.enseigneantcount, this.personnelcount];
+    const colors=["#33D69F","#FF4C61","#FFB800"];
+    return { labels, values, colors };
+  }
+
+  initParticipationChart(data :{labels:string[], values: number[], colors: string[]}): void {
     // Logs pour le graphique de participation (similaires aux autres)
     console.log("initParticipationChart called"); // LOG
     console.log("Données utilisées pour le graphique de participation :", this.participationData); // LOG
+    if(typeof window === undefined) return ;
     const canvas = document.getElementById('participationChart') as HTMLCanvasElement;
     console.log("Canvas element (participationChart):", canvas); // LOG
     const ctx = canvas ? canvas.getContext('2d') : null;
@@ -199,11 +278,11 @@ export class EnicargyDashboardComponent implements OnInit, AfterViewInit {
     const config: ChartConfiguration = {
       type: 'doughnut',
       data: {
-        labels: this.participationData.map(item => item.name),
+        labels: data.labels,
         datasets: [
           {
-            data: this.participationData.map(item => item.value),
-            backgroundColor: this.participationData.map(item => item.color),
+            data:data.values,
+            backgroundColor: data.colors,
             borderWidth: 0
           }
         ]

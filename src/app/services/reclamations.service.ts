@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Reclamation } from './../models/reclamationvAdmin';
 import { HttpClient } from '@angular/common/http';
-
+interface MonthlyStat {
+  mois: string;
+  total: number;
+  terminees: number;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -36,6 +40,16 @@ export class ReclamationsService {
   getStatusCountsByUser(userId: number |null) {
     return this.http.get(`http://localhost:9090/api/v1/reclamation/stats/${userId}`);
   }
-  
+  getReclamationByMonth(): Observable<MonthlyStat[]> {
+    return this.http.get<MonthlyStat[]>('http://localhost:9090/api/v1/reclamation/reclamation-by-month');
+  }
 
+  getReclamationStatusByMonth(): Observable<MonthlyStat[]> {
+    return this.http.get<MonthlyStat[]>('http://localhost:9090/api/v1/reclamation/status-by-month');
+  }
+  
+  
+  getReclamationCountsByUserRole(){
+    return this.http.get(`http://localhost:9090/api/v1/reclamation/statusUser`);
+  }
 }
