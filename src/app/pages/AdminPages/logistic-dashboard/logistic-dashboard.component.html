@@ -3,7 +3,7 @@
   <div class="main-content">
     <div class="header">
       <h1>ENICARGY</h1>
-      <p>Gestion des équipements</p>
+     
     </div>
     
     <div class="stats-cards">
@@ -20,8 +20,8 @@
         <div class="value">{{ repairEquipments }}</div>
       </div>
       <div class="stat-card">
-        <h2>Non Réparable</h2>
-        <div class="value">{{ brokenEquipments }}</div>
+        <h2> En Réserve</h2>
+        <div class="value">{{ reserveEquipments }}</div>
       </div>
     </div>
     
@@ -38,31 +38,44 @@
         </thead>
         <tbody>
           <tr *ngFor="let material of materials">
-            <td>
-              <div class="equipment-icon" [attr.data-type]="material.type"></div>
+            <td class="equipment-info">
+              <img [src]="getImagePath(material.type)" [alt]="material.type" class="equipment-image" />
               <span class="equipment-name">{{ material.type }}</span>
             </td>
-            <td>{{ material.total }}</td>
             <td>
-              <div *ngIf="material.good > 0">
-                <span class="status-dot good"></span> Bon état: {{ material.good }}
+              <input *ngIf="material.isEditing" [(ngModel)]="material.total" type="number" />
+              <span *ngIf="!material.isEditing">{{ material.total }}</span>
+            </td>
+            <td>
+              <div *ngIf="material.bon">
+                <input *ngIf="material.isEditing" [(ngModel)]="material.bon" type="number" />
+                <span class="status-dot good"></span> Bon état: {{ material.bon }}
               </div>
-              <div *ngIf="material.repair > 0">
-                <span class="status-dot warning"></span> En panne: {{ material.repair }}
+              <div *ngIf="material.enReparation">
+                <input *ngIf="material.isEditing" [(ngModel)]="material.enPanne" type="number" />
+                <span class="status-dot warning"></span> En panne: {{ material.enPanne }}
+                
               </div>
-              <div *ngIf="material.broken > 0">
-                <span class="status-dot danger"></span> Non réparable: {{ material.broken }}
+              <div *ngIf="material.enPanne">
+                <input *ngIf="material.isEditing" [(ngModel)]="material.enReparation" type="number" />
+                <span class="status-dot danger"></span> Non réparable: {{ material.enReparation }}
               </div>
             </td>
-            <td>{{ material.reserve }}</td>
-            <td><button class="update-btn">Actualiser</button></td>
+            <td>
+              <input *ngIf="material.isEditing" [(ngModel)]="material.reserve" type="number" />
+              <span *ngIf="!material.isEditing">{{ material.reserve }}</span>
+            </td>
+            <td>
+              <button class="update-btn" *ngIf="!material.isEditing" (click)="startEdit(material)">Actualiser</button>
+              <button class="save-btn" *ngIf="material.isEditing" (click)="saveEdit(material)">Sauvegarder</button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
     
     <div class="reserve-section">
-      <h3 class="reserve-title">Équipements en Panne</h3>
+      <h3 class="reserve-title">Équipements non Reparables</h3>
       
       <div class="chart-container">
         <div class="doughnut-chart-wrapper">
@@ -73,7 +86,8 @@
             <div class="legend-color" [style.background-color]="['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'][i]"></div>
             <div class="legend-text">
               <span class="legend-name">{{ material.type }}</span>
-              <span class="legend-value">{{ material.repair }} ({{ getRepairPercentage(material) }})</span>
+             <span class="legend-value">{{ material.enReparation }} ({{ getRepairPercentage(material) }})</span>
+
             </div>
           </div>
         </div>
