@@ -1,51 +1,81 @@
 :host {
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  .enicargy-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #f9f9f9;
-  }
-  
-  .enicargy-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  
-    h1 {
-      font-size: 24px;
-      font-weight: 700;
-      margin: 0;
-      letter-spacing: 1px;
-    }
-  
-    .notification-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background-color: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-  
-      i {
-        color: #555;
-      }
-    }
-  }
+  font-family: 'Roboto', sans-serif;
+}
 
+/* Conteneur principal */
+.enicargy-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding-bottom: 20px;
+}
+
+/* En-tête */
+.enicargy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.enicargy-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 1px;
+  color: #333;
+}
+
+/* Icône de notification */
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #eaeaea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.notification-icon:hover {
+  background-color: #d6d6d6;
+}
+
+.notification-icon i {
+  color: #444;
+  font-size: 18px;
+}
+
+/* Conteneur des graphiques */
 .chart-container {
-    position: relative;
-    height: 250px; /* Ajustez selon vos besoins */
-    margin-bottom: 20px;
+  position: relative;
+  height: 260px;
+  margin: 20px 20px;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
 }
 
 .chart-container:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* Responsive - Mobile */
+@media (max-width: 600px) {
+  .enicargy-header h1 {
+    font-size: 20px;
+  }
+
+  .chart-container {
+    margin: 10px;
+    height: 220px;
+    padding: 10px;
+  }
 }
