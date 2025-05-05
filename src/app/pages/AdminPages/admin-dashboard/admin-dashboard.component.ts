@@ -8,6 +8,8 @@ import { Chart, registerables } from 'chart.js';
 import { LogisticsMonitoringComponent } from '../../../components/logistics-monitoring/logistics-monitoring.component';
 import { ReclamationsService } from '../../../services/reclamations.service';
 import { TokenService } from '../../../services/TokenService';
+import { LogisticDashboardService } from '../../../services/logistic-dashboard.service';
+import { Equipement } from '../../../models/Equipement.model';
 
 Chart.register(...registerables);
 
@@ -29,9 +31,13 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   consumptionData: { electricite: number[]; eau: number[] } = { electricite: [], eau: [] };
   statsData: any = { utilisateurs: '...', electricite: '...', eau: '...', reclamations: '...' }; // Exemple de données pour les stats
   reclamationStats: any = { enAttente: 0, enCours: 0, terminee: 0 };
+
+
   chairs: number = 15; // Exemple de données logistiques
   tables: number = 7;
   projectors: number = 2;
+
+
 
 
    // Champs pour afficher le nombre de réclamations
@@ -40,11 +46,31 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
    terminee: number = 0;
 
 
+   logisticData : Equipement[] = [];
+
   constructor(private chartService: ChartService , 
     private reclamationService: ReclamationsService,
-    public tokenService: TokenService) {}
+    public tokenService: TokenService,
+    private logisticsService : LogisticDashboardService) {}
 
   ngOnInit() {
+
+
+    this.logisticsService.getMaterials().subscribe(
+      (data: Equipement[]) => {
+        this.logisticData = data;
+        console.log('Données logistiques reçues :', this.logisticData);
+        this.chairs = this.logisticData.find(item=>item.id ===1)?.bon || 0 ;
+        this.tables = this.logisticData.find(item=>item.id ===2)?.bon || 0 ;
+        this.projectors = this.logisticData.find(item=>item.id ===3)?.bon || 0 ;
+
+      },
+      error => {
+        console.error('Erreur lors de la récupération des données logistiques :', error);
+      }
+    );
+
+    
     this.loadInitialData();
     const token = this.tokenService.getToken();
     if (token !== null) {
@@ -105,12 +131,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
       this.isLoading = false;
     }, 1000);
 
-    // Simuler le chargement des données logistiques
-    setTimeout(() => {
-      this.chairs = 22;
-      this.tables = 10;
-      this.projectors = 3;
-    }, 1500);
+    
   }
 
   createLineChart() {
@@ -223,6 +244,9 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     });
     
   }
+
+
+
 
 }
 

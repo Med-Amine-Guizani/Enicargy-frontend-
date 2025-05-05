@@ -18,7 +18,7 @@ export interface Material {
 })
 export class LogisticDashboardService {
   
-  private apiUrl = 'http://localhost:9090/api/equipments'; //Spring Boot backend URL by default 
+  private apiUrl = 'http://localhost:9090/api/equipments';
 
   constructor(private http: HttpClient) {}
 
@@ -32,6 +32,5 @@ export class LogisticDashboardService {
     // Requête DELETE pour supprimer l'équipement
     deleteEquipment(id: number): Observable<void> {
       return this.http.delete<void>(`${this.apiUrl}/${id}`);  
-    
   }
 }
