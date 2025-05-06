@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,6 +11,8 @@ import { CommonModule } from '@angular/common';
 })
 export class SidebarComponent {
   @Output() navigateTo = new EventEmitter<string>();
+
+  constructor(private authService :AuthService) {}
 
   selected: string = 'dashboard';
 
@@ -39,6 +42,7 @@ export class SidebarComponent {
       path: 'logistic',
       icon: 'https://img.icons8.com/color/48/delivery.png',
     },
+    
   ];
 
 
@@ -48,6 +52,10 @@ export class SidebarComponent {
   select(path: string): void {
     this.selected = path;
     this.navigateTo.emit(path);
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
 

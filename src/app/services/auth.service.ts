@@ -66,7 +66,7 @@ export class AuthService {
     // Clear the token
     this.tokenService.clearToken();
     // Redirect to login page or home page
-    this.router.navigate(['/login']);
+    this.router.navigate(['/seconnecter']);
   }
 
   isAuthenticated(): boolean {
