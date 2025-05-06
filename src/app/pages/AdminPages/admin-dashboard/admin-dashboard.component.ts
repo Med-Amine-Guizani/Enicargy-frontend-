@@ -10,6 +10,7 @@ import { ReclamationsService } from '../../../services/reclamations.service';
 import { TokenService } from '../../../services/TokenService';
 import { LogisticDashboardService } from '../../../services/logistic-dashboard.service';
 import { Equipement } from '../../../models/Equipement.model';
+import { ReclamationAdminService } from '../../../services/reclamation-admin.service';
 
 Chart.register(...registerables);
 
@@ -33,10 +34,12 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   reclamationStats: any = { enAttente: 0, enCours: 0, terminee: 0 };
 
 
-  chairs: number = 15; // Exemple de données logistiques
+  chairs: number = 15; 
   tables: number = 7;
   projectors: number = 2;
 
+
+  userCount: number = 0; 
 
 
 
@@ -50,6 +53,8 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
 
   constructor(private chartService: ChartService , 
     private reclamationService: ReclamationsService,
+    private reclamationAdminService: ReclamationAdminService,
+
     public tokenService: TokenService,
     private logisticsService : LogisticDashboardService) {}
 
@@ -67,6 +72,16 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
       },
       error => {
         console.error('Erreur lors de la récupération des données logistiques :', error);
+      }
+    );
+
+    this.reclamationAdminService.getCountUsers().subscribe(
+      (count: number) => {
+        this.userCount = count;
+        console.log('Nombre d\'utilisateurs :', this.userCount);
+      },
+      error => {
+        console.error('Erreur lors de la récupération du nombre d\'utilisateurs :', error);
       }
     );
 

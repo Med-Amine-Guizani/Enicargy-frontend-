@@ -147,3 +147,24 @@
 .en-attente { background-color:#ff6384; }
 .en-cours { background-color: #36a2eb; }
 .terminee { background-color: #4bc0c0; }
+
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+
+
+.chart-container:last-child {
+    margin-bottom: 0;
+}
+canvas {
+    width:  100%!important;
+    height: auto !important;
+  }
+  

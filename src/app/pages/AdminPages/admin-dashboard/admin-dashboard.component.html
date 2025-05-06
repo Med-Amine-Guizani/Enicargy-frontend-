@@ -6,7 +6,7 @@
 </header>
 
 <div class="chart-container">
-  <canvas #lineChart></canvas>
+  <canvas  #lineChart></canvas>
 </div>
 
 <div class="stats-section">
@@ -15,11 +15,9 @@
       <mat-icon>group</mat-icon>
     </div>
     <div class="stat-info">
-      <div class="stat-value">{{ statsData.utilisateurs }}</div>
+      <div class="stat-value">{{ userCount }}</div>
       <div class="stat-label">Utilisateurs</div>
       <div class="stat-subvalues">
-        <span>{{ statsData.utilisateurs }}</span>
-        <span>{{ statsData.reclamations }}</span>
       </div>
     </div>
   </div>

@@ -30,4 +30,11 @@ export class ReclamationAdminService {
   updateReclamationState(id: number): Observable<Reclamation> {
     return this.http.patch<Reclamation>(`${this.reclamationApiUrl}/status/${id}`,{}); 
   }
+
+  getCountUsers(): Observable<number> {
+    return this.http.get<number>('http://localhost:9090/api/v1/reclamation/Countusers');
+  }
+
+ 
+
 }
